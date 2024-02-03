@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   SafeAreaView,
@@ -22,6 +22,7 @@ import DocumentPicker, {
   isInProgress,
   types,
 } from 'react-native-document-picker';
+import Sound from 'react-native-sound';
 
 import Icons, {EIconTypes} from '../../assets/Icon';
 import COLORS from '../../assets/color';
@@ -29,6 +30,12 @@ import {createTableAudio} from '../../store/sqlite/sqliteConfig';
 
 function SAddAudio(): React.JSX.Element {
   // createTableAudio()
+  // useEffect(() => {
+  //   const sound = new Sound('file:///data/user/0/com.listeningpractice/cache/cb2312f5-9626-415f-8d04-f69ae13de19d/Audio.mp3', error => {
+  //     console.log({error});
+  //   });
+  //   sound.play()
+  // },[])
   return (
     <SafeAreaView>
       <StatusBar />
@@ -49,11 +56,14 @@ function SAddAudio(): React.JSX.Element {
                   presentationStyle: 'fullScreen',
                   copyTo: 'cachesDirectory',
                 });
-                console.log({pickerResult});
-                
+                const sound = new Sound(pickerResult.fileCopyUri?.split("file://")[1], Sound.MAIN_BUNDLE, error => {
+                  console.log({error});
+                  sound.play()
+                });
+                sound.play()
+                console.log({pickerResult, sound, path : pickerResult.fileCopyUri?.split("file://")[1]});
               } catch (e) {
                 console.log(e);
-                
               }
             }}
           />
