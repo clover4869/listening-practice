@@ -17,8 +17,10 @@ import {
 
 import Icons, {EIconTypes} from '../../assets/Icon';
 import COLORS from '../../assets/color';
+import { createTableAudio } from '../../store/sqlite/sqliteConfig';
 
 function SAddAudio(): React.JSX.Element {
+  // createTableAudio()
   return (
     <SafeAreaView>
       <StatusBar />
