@@ -7,6 +7,7 @@
 
 import React from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -14,10 +15,17 @@ import {
   Text,
   View,
 } from 'react-native';
+import DocumentPicker, {
+  DirectoryPickerResponse,
+  DocumentPickerResponse,
+  isCancel,
+  isInProgress,
+  types,
+} from 'react-native-document-picker';
 
 import Icons, {EIconTypes} from '../../assets/Icon';
 import COLORS from '../../assets/color';
-import { createTableAudio } from '../../store/sqlite/sqliteConfig';
+import {createTableAudio} from '../../store/sqlite/sqliteConfig';
 
 function SAddAudio(): React.JSX.Element {
   // createTableAudio()
@@ -32,6 +40,23 @@ function SAddAudio(): React.JSX.Element {
             type={EIconTypes.Ionicons}
             size={12}
             color={COLORS.GREY_SCORPION}></Icons>
+
+          <Button
+            title="open picker for single file selection"
+            onPress={async () => {
+              try {
+                const pickerResult = await DocumentPicker.pickSingle({
+                  presentationStyle: 'fullScreen',
+                  copyTo: 'cachesDirectory',
+                });
+                console.log({pickerResult});
+                
+              } catch (e) {
+                console.log(e);
+                
+              }
+            }}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
