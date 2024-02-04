@@ -4,18 +4,13 @@
  *
  * @format
  */
+import 'react-native-gesture-handler';
 
 import React from 'react';
-import {SafeAreaView} from 'react-native';
-
-import SAddAudio from './src/screens/SAddAudio';
+import NavigationApp from './src/navigator';
 
 function App(): React.JSX.Element {
-  return (
-    <SafeAreaView>
-      <SAddAudio />
-    </SafeAreaView>
-  );
+  return <NavigationApp />;
 }
 
 export default App;

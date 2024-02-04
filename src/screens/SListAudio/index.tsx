@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   SafeAreaView,
@@ -27,17 +27,21 @@ import Sound from 'react-native-sound';
 import Icons, {EIconTypes} from '../../assets/Icon';
 import COLORS from '../../assets/color';
 import {createTableAudio} from '../../store/sqlite/sqliteConfig';
-import {useNavigation} from '@react-navigation/native';
-import {Routes} from '../../navigator/types';
 
-function SAddAudio(): React.JSX.Element {
-  const navigation = useNavigation<any>();
+function SListAudio(): React.JSX.Element {
+  // createTableAudio()
+  // useEffect(() => {
+  //   const sound = new Sound('file:///data/user/0/com.listeningpractice/cache/cb2312f5-9626-415f-8d04-f69ae13de19d/Audio.mp3', error => {
+  //     console.log({error});
+  //   });
+  //   sound.play()
+  // },[])
   return (
     <SafeAreaView>
       <StatusBar />
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.container}>
-          <Text>Add Audio</Text>
+          <Text>list Audio</Text>
           <Icons
             name="add"
             type={EIconTypes.Ionicons}
@@ -52,31 +56,17 @@ function SAddAudio(): React.JSX.Element {
                   presentationStyle: 'fullScreen',
                   copyTo: 'cachesDirectory',
                 });
-                const sound = new Sound(
-                  pickerResult.fileCopyUri?.split('file://')[1],
-                  Sound.MAIN_BUNDLE,
-                  error => {
-                    console.log({error});
-                    sound.play();
-                  },
-                );
-                sound.play();
-                console.log({
-                  pickerResult,
-                  sound,
-                  path: pickerResult.fileCopyUri?.split('file://')[1],
+                const sound = new Sound(pickerResult.fileCopyUri?.split("file://")[1], Sound.MAIN_BUNDLE, error => {
+                  console.log({error});
+                  sound.play()
                 });
+                sound.play()
+                console.log({pickerResult, sound, path : pickerResult.fileCopyUri?.split("file://")[1]});
               } catch (e) {
                 console.log(e);
               }
             }}
           />
-
-          <Button
-            title="list audio"
-            onPress={() => {
-              navigation.navigate(Routes.LIST_AUDIO);
-            }}></Button>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -90,4 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SAddAudio;
+export default SListAudio;
