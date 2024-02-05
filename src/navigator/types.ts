@@ -6,6 +6,8 @@ export enum Routes {
   HOME_SCREEN = 'HomeScreen',
   ADD_AUDIO = 'ADD_AUDIO',
   LIST_AUDIO = 'LIST_AUDIO',
+  AUDIO_PLAYER = 'AUDIO_PLAYER',
+
 }
 
 export type StackParamList = {
