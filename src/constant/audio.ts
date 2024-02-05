@@ -1,0 +1,7 @@
+enum AUDIO_FILE_TYPE {
+  DRIVER = 'DRIVER',
+  URL = 'URL',
+  LOCAL_FILE = 'LOCAL_FILE',
+}
+
+export {AUDIO_FILE_TYPE};
