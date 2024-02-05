@@ -10,6 +10,7 @@ import {TabView, SceneMap} from 'react-native-tab-view';
 import Icons, {EIconTypes} from '../../../assets/Icon';
 import Sound from 'react-native-sound';
 import BackgroundTimer from 'react-native-background-timer';
+import {usePlayerStore} from '../../../store/zustand/usePlayerStore';
 
 const DATA = {
   id: 0,
@@ -33,30 +34,42 @@ interface IPlayer {
 }
 
 export default function PlayerControl() {
-  const [player, setPlayer] = React.useState<IPlayer>({
-    sound: null,
-    isChangingInput: false,
-    isPlay: false,
-    start: 10,
-    end: 20,
-    position: 0,
-  });
+  const {
+    sound,
+    isChangingInput,
+    isPlay,
+    start,
+    end,
+    position,
+    setSound,
+    setPeriod,
+    setPosition,
+    setPlay
+  } = usePlayerStore();
+  //   const [player, setPlayer] = React.useState<IPlayer>({
+  //     sound: null,
+  //     isChangingInput: false,
+  //     isPlay: false,
+  //     start: 10,
+  //     end: 20,
+  //     position: 0,
+  //   });
 
   function initSound() {
     const callback = (error: any, sound: any) => {
       if (error) {
         return;
       }
-      setPlayer({...player, sound});
+      setSound(sound);
     };
 
-    if (player.sound) {
-      (player.sound as any)?.release();
+    if (sound) {
+      (sound as any)?.release();
     }
-    const sound = new Sound(
+    const soundInit = new Sound(
       'https://english-practice.net/wp-content/uploads/2022/01/listening-practice-through-dictation-1-01.mp3',
       undefined,
-      error => callback(error, sound),
+      error => callback(error, soundInit),
     ) as any;
   }
 
@@ -68,25 +81,18 @@ export default function PlayerControl() {
     let interval: any = null;
     (async function name() {
       try {
-        if (!player.sound) return;
+        if (!sound) return;
         interval = BackgroundTimer.setInterval(() => {
-          if (
-            player.sound &&
-            player.sound?.isLoaded &&
-            !player.isChangingInput &&
-            player.isPlay
-          ) {
-            player.sound.getCurrentTime(
-              (seconds: number, isPlaying: boolean) => {
-                let secondApply = seconds;
-                if (seconds < player.start || seconds > player.end) {
-                  secondApply = player.start;
-                  player.sound.setCurrentTime(secondApply);
-                }
+          if (sound && sound?.isLoaded && !isChangingInput && isPlay) {
+            sound.getCurrentTime((seconds: number, isPlaying: boolean) => {
+              let secondApply = seconds;
+              if (seconds < start || seconds > end) {
+                secondApply = start;
+                sound.setCurrentTime(secondApply);
+              }
 
-                setPlayer({...player, position: secondApply});
-              },
-            );
+              setPosition(secondApply);
+            });
           }
         }, 100);
         console.log('Successful start!');
@@ -99,16 +105,16 @@ export default function PlayerControl() {
       interval && BackgroundTimer.clearInterval(interval);
     };
   }, [
-    player.isPlay,
-    player.isChangingInput,
-    player.sound,
-    player.start,
-    player.end,
+    isPlay,
+    isChangingInput,
+    sound,
+    start,
+    end,
   ]);
 
   return (
     <View style={styles.container}>
-      <Text>PlayerControl -------- {player.position} ---------------- </Text>
+      <Text>ontrol -------- {position} ---------------- </Text>
       <View>
         <Text> time slider </Text>
       </View>
@@ -125,9 +131,8 @@ export default function PlayerControl() {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            (player.sound as any)?.play();
-            setPlayer({...player, isPlay: true});
-            console.log({player});
+            (sound as any)?.play();
+            setPlay(true);
           }}>
           <Icons
             type={EIconTypes.Feather}
