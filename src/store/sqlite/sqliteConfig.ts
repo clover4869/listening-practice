@@ -24,7 +24,8 @@ const createTableAudio = async () => {
     //       name text,
     //       content integer,
     //       start integer,
-    //       end integer
+    //       end integer,
+    //       index integer
     //     );`);
     let dataInsert = await db.executeAsync(
       `
