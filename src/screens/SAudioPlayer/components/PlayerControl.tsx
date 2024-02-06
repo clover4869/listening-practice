@@ -11,6 +11,9 @@ import Icons, {EIconTypes} from '../../../assets/Icon';
 import Sound from 'react-native-sound';
 import BackgroundTimer from 'react-native-background-timer';
 import {usePlayerStore} from '../../../store/zustand/usePlayerStore';
+import COLORS from '../../../assets/color';
+import Slider from '@react-native-community/slider';
+import {convertTimeString} from '../../../shared/convert';
 
 const DATA = {
   id: 0,
@@ -41,10 +44,11 @@ export default function PlayerControl() {
     start,
     end,
     position,
+    duration,
     setSound,
     setPeriod,
     setPosition,
-    setPlay
+    setPlay,
   } = usePlayerStore();
   //   const [player, setPlayer] = React.useState<IPlayer>({
   //     sound: null,
@@ -104,19 +108,41 @@ export default function PlayerControl() {
     return () => {
       interval && BackgroundTimer.clearInterval(interval);
     };
-  }, [
-    isPlay,
-    isChangingInput,
-    sound,
-    start,
-    end,
-  ]);
+  }, [isPlay, isChangingInput, sound, start, end]);
 
   return (
     <View style={styles.container}>
-      <Text>ontrol -------- {position} ---------------- </Text>
-      <View>
-        <Text> time slider </Text>
+      {/* Progress Durations */}
+      <View style={styles.progressWrapper}>
+        <Text style={styles.progressLabelText}>
+          {convertTimeString(position).toString()}
+        </Text>
+        <Slider
+          style={styles.progressBar}
+          value={position}
+          minimumValue={0}
+          maximumValue={duration}
+          thumbTintColor="#FFD369"
+          minimumTrackTintColor="#FFD369"
+          maximumTrackTintColor="#fff"
+          onSlidingComplete={async value => {
+            // let tmp = value;
+            // if (value > ABRepeat.end) {
+            //   tmp = ABRepeat.end;
+            // }
+            // if (value >= info.duration - 1) {
+            //   tmp = info.duration - 1;
+            // }
+            // await seekTo(tmp);
+            // setIsChangingInput(false);
+          }}
+          onSlidingStart={() => {
+            // setIsChangingInput(true);
+          }}
+        />
+        <Text style={styles.progressLabelText}>
+          {convertTimeString(duration).toString()}
+        </Text>
       </View>
 
       {/* button control zone */}
@@ -125,8 +151,8 @@ export default function PlayerControl() {
           <Icons
             type={EIconTypes.Feather}
             name={'rotate-ccw'}
-            size={45}
-            color="#FFD369"
+            size={25}
+            color={COLORS.LAVENDER}
           />
         </TouchableOpacity>
         <TouchableOpacity
@@ -137,16 +163,16 @@ export default function PlayerControl() {
           <Icons
             type={EIconTypes.Feather}
             name={'play'}
-            size={45}
-            color="#FFD369"
+            size={25}
+            color={COLORS.LAVENDER}
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {}}>
           <Icons
             type={EIconTypes.Feather}
             name={'rotate-cw'}
-            size={45}
-            color="#FFD369"
+            size={25}
+            color={COLORS.LAVENDER}
           />
         </TouchableOpacity>
       </View>
@@ -158,11 +184,30 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: COLORS.GREY_CHARCOAL,
+    paddingHorizontal: 12,
+    paddingVertical: 18
   },
   buttonControlContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     gap: 12,
+  },
+  progressBar: {
+    flex: 1,
+    // width: '100%',
+  },
+  progressWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 5,
+    color: COLORS.WHITE,
+    paddingVertical: 12,
+    width: '100%',
+  },
+  progressLabelText: {
+    color: COLORS.WHITE,
   },
 });
