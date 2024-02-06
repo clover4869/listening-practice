@@ -1,11 +1,20 @@
 import * as React from 'react';
-import {Text, TouchableOpacity, View, useWindowDimensions} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  useWindowDimensions,
+} from 'react-native';
 import {
   NestableDraggableFlatList,
   NestableScrollContainer,
   ScaleDecorator,
 } from 'react-native-draggable-flatlist';
 import {TabView, SceneMap} from 'react-native-tab-view';
+import Input from '../../components/atom/Input';
+import CButton from '../../components/atom/Button';
+import BreakTimeItem from './components/BreakTimeItem';
 
 const DATA = [
   {
@@ -45,28 +54,16 @@ const DATA = [
 export default function SBreakTime() {
   const [data, setData] = React.useState(DATA);
   return (
-    <View style={{flex: 1, backgroundColor: '#673ab7'}}>
+    <View style={styles.container}>
+      <Input value={'1212'} onChange={value => console.log('value', value)} />
       <Text>SBreakTime</Text>
+      <CButton onPress={() => {}}>
+        <Text>hihi</Text>
+      </CButton>
       <NestableScrollContainer>
         <NestableDraggableFlatList
           data={data}
-          renderItem={({item, getIndex, drag, isActive}) => {
-            return (
-              <ScaleDecorator>
-                <TouchableOpacity
-                //   onLongPress={drag}
-                  onPressIn={drag}
-                  disabled={isActive}
-                  style={[{backgroundColor: isActive ? 'red' : 'blue'}]}>
-                  <View style={{height: 42}}>
-                    <Text>
-                      {getIndex()} hihi {item.text}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              </ScaleDecorator>
-            );
-          }}
+          renderItem={props => <BreakTimeItem {...props} onRemove={() => {}} />}
           keyExtractor={item => item.key}
           onDragEnd={({data}) => setData(data)}
         />
@@ -74,3 +71,9 @@ export default function SBreakTime() {
     </View>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+});
