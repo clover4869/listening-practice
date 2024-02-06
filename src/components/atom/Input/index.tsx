@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
 
-enum ECInputType {
+export enum ECInputType {
   number = 'numeric',
   text = 'default',
 }
@@ -9,18 +9,20 @@ enum ECInputType {
 interface ICInput {
   onChange: (value: string | number) => void;
   value: string | number;
+  placeholder? :string;
   type?: ECInputType;
+  style? : any
 }
 
-const CInput: FC<ICInput> = ({onChange, value, type}) => {
+const CInput: FC<ICInput> = ({onChange, value, type, style, placeholder}) => {
   return (
     <TextInput
-      style={styles.input}
+      style={[styles.input, style]}
       onChangeText={text =>
         onChange(type === ECInputType.number ? Number(text) : text)
       }
       value={value.toString()}
-      placeholder="useless placeholder"
+      placeholder={placeholder}
       keyboardType={type || 'default'}
     />
   );

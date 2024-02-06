@@ -4,13 +4,15 @@ import {StyleSheet, TouchableHighlight, View} from 'react-native';
 interface ICButton {
   onPress: () => void;
   children: React.ReactNode;
+  style?: any;
 }
 
-const CButton: FC<ICButton> = ({onPress, children}) => {
+const CButton: FC<ICButton> = ({onPress, children, style}) => {
   return (
-    <TouchableHighlight onPress={onPress}>
-      <View style={styles.button}>{children}</View>
-    </TouchableHighlight>
+    // <View style={{width: '100%', backgroundColor: 'green' , height: 25}} ></View>
+    <TouchableHighlight onPress={onPress} style={{width: '100%', padding: 0, backgroundColor: 'green'}}>
+    <View style={[styles.button, style]}>{children}</View>
+  </TouchableHighlight>
   );
 };
 
@@ -20,7 +22,8 @@ const styles = StyleSheet.create({
     // margin: 12,
     // borderWidth: 1,
     // padding: 10,
-    backgroundColor: 'red'
+    backgroundColor: 'red',
+    padding: 0,
   },
 });
 

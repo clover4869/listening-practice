@@ -15,6 +15,7 @@ import {TabView, SceneMap} from 'react-native-tab-view';
 import Input from '../../components/atom/Input';
 import CButton from '../../components/atom/Button';
 import BreakTimeItem from './components/BreakTimeItem';
+import BreakTimeControl from './components/BreakTimeControl';
 
 const DATA = [
   {
@@ -55,11 +56,7 @@ export default function SBreakTime() {
   const [data, setData] = React.useState(DATA);
   return (
     <View style={styles.container}>
-      <Input value={'1212'} onChange={value => console.log('value', value)} />
-      <Text>SBreakTime</Text>
-      <CButton onPress={() => {}}>
-        <Text>hihi</Text>
-      </CButton>
+      <BreakTimeControl />
       <NestableScrollContainer>
         <NestableDraggableFlatList
           data={data}
