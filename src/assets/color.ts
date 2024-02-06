@@ -64,9 +64,14 @@ enum COLORS {
   GREY_FIORD = '#42526E',
   GREY_SLATE = '#6B778C',
   GREY_SHUTTLE = '#5E6C84',
-
+  
+  GREY_SCALE = '#262626',
+  GREY_CHARCOAL = '#3F3F40',
+  
   GREY_LIGHT = '#626160ff',
   GREY_LIGHT2 = '#636160ff',
+
+  LAVENDER = '#5e4dcd',
 
   BLACK = '#000',
 
@@ -74,5 +79,6 @@ enum COLORS {
   WHITE_GREY = '#f6f4f0',
   OPACITY = 'rgba(0, 0, 0, 0.0)',
   MISCHKA_WHITE = '#DFE1E6',
+  
 }
 export default COLORS

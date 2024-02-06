@@ -4,6 +4,7 @@ import {ScaleDecorator} from 'react-native-draggable-flatlist';
 import Icons, {EIconTypes} from '../../../assets/Icon';
 import CInput, {ECInputType} from '../../../components/atom/Input';
 import CButton from '../../../components/atom/Button';
+import COLORS from '../../../assets/color';
 
 interface IBreakTimeControl {}
 
@@ -35,10 +36,10 @@ const BreakTimeControl: FC<IBreakTimeControl> = ({}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#262626',
+    backgroundColor: COLORS.GREY_SCALE,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#3F3F40',
+    borderColor: COLORS.GREY_CHARCOAL,
     paddingHorizontal: 24,
     paddingVertical: 18,
     display: 'flex',
@@ -55,8 +56,8 @@ const styles = StyleSheet.create({
   button: {
     minHeight: 50,
     borderRadius: 6,
-    backgroundColor: '#5e4dcd',
-    color: '#fff',
+    backgroundColor: COLORS.LAVENDER,
+    color: COLORS.WHITE,
     fontSize: 15,
     width: '100%',
     justifyContent: 'center',
@@ -66,9 +67,9 @@ const styles = StyleSheet.create({
     minHeight: 50,
     width: '50%',
     padding: 12,
-    color: '#fff',
+    color: COLORS.WHITE,
     fontSize: 15,
-    borderColor: '#5e4dcd',
+    borderColor: COLORS.LAVENDER,
     borderWidth: 1,
     backgroundColor: 'transparent',
     marginBottom: 12,
