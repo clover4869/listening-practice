@@ -1,33 +1,57 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {ScaleDecorator} from 'react-native-draggable-flatlist';
 import Icons, {EIconTypes} from '../../../assets/Icon';
 import CInput, {ECInputType} from '../../../components/atom/Input';
 import CButton from '../../../components/atom/Button';
 import COLORS from '../../../assets/color';
+import {insertOne} from '../../../store/sqlite/breakTime';
+import {usePlayerStore} from '../../../store/zustand/usePlayerStore';
+import {useRoute} from '@react-navigation/native';
 
 interface IBreakTimeControl {}
 
 const BreakTimeControl: FC<IBreakTimeControl> = ({}) => {
+  const {params} = useRoute<any>();
+  const {id} = params;
+  const {duration} = usePlayerStore();
+  const [form, setForm] = useState({
+    start: 0,
+    end: duration || 0,
+  });
+
+  const handleSubmit = async () => {
+    const data = await insertOne({
+      audio_id: id,
+      start: form.start,
+      end: form.end,
+      position: 0,
+    });
+    console.log(data);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.wrapInput}>
         <CInput
           style={styles.input}
-          value={1}
-          onChange={() => {}}
+          value={form.start}
+          onChange={value => {
+            setForm({...form, start: Number(value)});
+          }}
           type={ECInputType.number}
           placeholder="Start"
         />
         <CInput
           style={styles.input}
-          value={1}
-          onChange={() => {}}
+          value={form.end}
+          onChange={value => {
+            setForm({...form, end: Number(value)});
+          }}
           type={ECInputType.number}
           placeholder="End"
         />
       </View>
-      <CButton style={styles.button} onPress={() => {}}>
+      <CButton style={styles.button} onPress={handleSubmit}>
         <Text style={styles.text}>Break time</Text>
       </CButton>
     </View>
