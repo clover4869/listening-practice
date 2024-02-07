@@ -26,4 +26,25 @@ async function insertOne({audio_id, start, end, position}: IInsertOne) {
   }
 }
 
-export {insertOne};
+async function findAll(audio_id : number | string) {
+  try {
+    let {rows} = await db.executeAsync('SELECT * FROM break where audio_id = ?', [audio_id]);
+
+    return rows?._array;
+  } catch (error) {
+    console.error('Something went wrong executing SQL commands:', error);
+  }
+}
+
+async function remove(id: number) {
+  try {
+    await db.executeAsync('DELETE from break where id = ?', [id]);
+    let {rows} = await db.executeAsync('SELECT * FROM break');
+
+    return rows?._array;
+  } catch (error) {
+    console.error('Something went wrong executing SQL commands:', error);
+  }
+}
+
+export {insertOne, remove, findAll};

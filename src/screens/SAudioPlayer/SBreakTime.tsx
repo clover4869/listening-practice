@@ -1,63 +1,27 @@
+import { useRoute } from '@react-navigation/native';
 import * as React from 'react';
 import {
   StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  useWindowDimensions,
+  View
 } from 'react-native';
 import {
   NestableDraggableFlatList,
-  NestableScrollContainer,
-  ScaleDecorator,
+  NestableScrollContainer
 } from 'react-native-draggable-flatlist';
-import {TabView, SceneMap} from 'react-native-tab-view';
-import Input from '../../components/atom/Input';
-import CButton from '../../components/atom/Button';
-import BreakTimeItem from './components/BreakTimeItem';
+import { findAll } from '../../store/sqlite/breakTime';
+import { useBreaksStore } from '../../store/zustand/useBreakStore';
 import BreakTimeControl from './components/BreakTimeControl';
-import {useRoute} from '@react-navigation/native';
-
-const DATA = [
-  {
-    key: 'jiji' + Math.random() * 100,
-    text: 'hihi' + Math.random() * 1000,
-  },
-  {
-    key: 'jiji' + Math.random() * 100,
-    text: 'hihi' + Math.random() * 1000,
-  },
-  {
-    key: 'jiji' + Math.random() * 100,
-    text: 'hihi' + Math.random() * 1000,
-  },
-  {
-    key: 'jiji' + Math.random() * 100,
-    text: 'hihi' + Math.random() * 1000,
-  },
-  {
-    key: 'jiji' + Math.random() * 100,
-    text: 'hihi' + Math.random() * 1000,
-  },
-  {
-    key: 'jiji' + Math.random() * 100,
-    text: 'hihi' + Math.random() * 1000,
-  },
-  {
-    key: 'jiji' + Math.random() * 100,
-    text: 'hihi' + Math.random() * 1000,
-  },
-  {
-    key: 'jiji' + Math.random() * 100,
-    text: 'hihi' + Math.random() * 1000,
-  },
-];
+import BreakTimeItem from './components/BreakTimeItem';
 
 export default function SBreakTime() {
   const {params} = useRoute<any>();
-  const [data, setData] = React.useState(DATA);
+  const {breaks, initBreak} = useBreaksStore()
 
   React.useEffect(() => {
+    (async function () {
+      const breaks : any = await findAll(params.id);
+      initBreak(breaks)
+    })();
   }, []);
 
   return (
@@ -65,10 +29,10 @@ export default function SBreakTime() {
       <BreakTimeControl />
       <NestableScrollContainer>
         <NestableDraggableFlatList
-          data={data}
+          data={breaks}
           renderItem={props => <BreakTimeItem {...props} onRemove={() => {}} />}
-          keyExtractor={item => item.key}
-          onDragEnd={({data}) => setData(data)}
+          keyExtractor={(item : any) => item.id}
+          onDragEnd={({data} : any) => initBreak(data)}
         />
       </NestableScrollContainer>
     </View>

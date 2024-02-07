@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {ScaleDecorator} from 'react-native-draggable-flatlist';
 import Icons, {EIconTypes} from '../../../assets/Icon';
+import {usePlayerStore} from '../../../store/zustand/usePlayerStore';
 
 interface IBreakTimeItem {
   item: any;
@@ -18,16 +19,20 @@ const BreakTimeItem: FC<IBreakTimeItem> = ({
   isActive,
   onRemove,
 }) => {
+  const {
+    setPeriod,
+  } = usePlayerStore();
   return (
     <ScaleDecorator>
       <TouchableOpacity
-        //   onLongPress={drag}
-        onPressIn={drag}
+        onLongPress={drag}
+        // onPressIn={drag}
+        onPress={() => setPeriod(item.start, item.end)}
         disabled={isActive}
         style={[styles.container, {}]}>
         <View>
           <Text style={styles.text}>
-            {getIndex()} hihi {item.text}
+            {getIndex()}. {item.start} {'--->'} {item.end}
           </Text>
         </View>
         <View>

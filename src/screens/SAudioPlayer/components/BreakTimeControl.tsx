@@ -8,11 +8,13 @@ import COLORS from '../../../assets/color';
 import {insertOne} from '../../../store/sqlite/breakTime';
 import {usePlayerStore} from '../../../store/zustand/usePlayerStore';
 import {useRoute} from '@react-navigation/native';
+import {useBreaksStore} from '../../../store/zustand/useBreakStore';
 
 interface IBreakTimeControl {}
 
 const BreakTimeControl: FC<IBreakTimeControl> = ({}) => {
   const {params} = useRoute<any>();
+  const {breaks, addBreak} = useBreaksStore();
   const {id} = params;
   const {duration} = usePlayerStore();
   const [form, setForm] = useState({
@@ -21,13 +23,14 @@ const BreakTimeControl: FC<IBreakTimeControl> = ({}) => {
   });
 
   const handleSubmit = async () => {
+    const position = breaks.length || 0;
     const data = await insertOne({
       audio_id: id,
       start: form.start,
       end: form.end,
-      position: 0,
+      position: position,
     });
-    console.log(data);
+    addBreak(form.start, form.end, position);
   };
   return (
     <View style={styles.container}>
