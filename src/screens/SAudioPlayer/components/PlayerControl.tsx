@@ -49,15 +49,8 @@ export default function PlayerControl() {
     setPeriod,
     setPosition,
     setPlay,
+    setDuration
   } = usePlayerStore();
-  //   const [player, setPlayer] = React.useState<IPlayer>({
-  //     sound: null,
-  //     isChangingInput: false,
-  //     isPlay: false,
-  //     start: 10,
-  //     end: 20,
-  //     position: 0,
-  //   });
 
   function initSound() {
     const callback = (error: any, sound: any) => {
@@ -65,6 +58,7 @@ export default function PlayerControl() {
         return;
       }
       setSound(sound);
+      setDuration(sound.duration)
     };
 
     if (sound) {
@@ -152,7 +146,7 @@ export default function PlayerControl() {
             type={EIconTypes.Feather}
             name={'rotate-ccw'}
             size={25}
-            color={COLORS.LAVENDER}
+            color={COLORS.YELLOW_BUTTERMILK}
           />
         </TouchableOpacity>
         <TouchableOpacity
@@ -164,7 +158,7 @@ export default function PlayerControl() {
             type={EIconTypes.Feather}
             name={'play'}
             size={25}
-            color={COLORS.LAVENDER}
+            color={COLORS.YELLOW_BUTTERMILK}
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {}}>
@@ -172,7 +166,7 @@ export default function PlayerControl() {
             type={EIconTypes.Feather}
             name={'rotate-cw'}
             size={25}
-            color={COLORS.LAVENDER}
+            color={COLORS.YELLOW_BUTTERMILK}
           />
         </TouchableOpacity>
       </View>

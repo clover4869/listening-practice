@@ -12,6 +12,7 @@ interface IPlayer {
   setPosition: (position: number) => void;
   setPeriod: (start: number, end: number) => void;
   setPlay: (isPlay: boolean) => void;
+  setDuration: (duration: number) => void
 }
 
 const usePlayerStore = create<IPlayer>()(set => ({
@@ -24,6 +25,7 @@ const usePlayerStore = create<IPlayer>()(set => ({
   duration: 0,
   setSound: sound => set(state => ({...state, sound})),
   setPosition: position => set(state => ({...state, position})),
+  setDuration: duration => set(state => ({...state, duration})),
   setPeriod: (start, end) => set(state => ({...state, start, end})),
   setPlay: isPlay => set(state => ({...state, isPlay})),
   // increase: (by) => set((state) => ({ bears: state.bears + by })),
