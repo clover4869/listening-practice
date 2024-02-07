@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, { useEffect } from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {
   Button,
   SafeAreaView,
@@ -27,46 +27,39 @@ import Sound from 'react-native-sound';
 import Icons, {EIconTypes} from '../../assets/Icon';
 import COLORS from '../../assets/color';
 import {createTableAudio} from '../../store/sqlite/sqliteConfig';
+import {find} from '../../store/sqlite/audio';
+import AudioItem from './components/AudioItem';
 
 function SListAudio(): React.JSX.Element {
-  // createTableAudio()
-  // useEffect(() => {
-  //   const sound = new Sound('file:///data/user/0/com.listeningpractice/cache/cb2312f5-9626-415f-8d04-f69ae13de19d/Audio.mp3', error => {
-  //     console.log({error});
-  //   });
-  //   sound.play()
-  // },[])
+  const [audios, setAudios] = useState([]);
+  useEffect(() => {
+    (async function name() {
+      const data = await find({});
+
+      setAudios(data?._array || []);
+    })();
+  }, []);
+
+  const renderAudios = () => {
+    if (!audios) return;
+
+    return audios?.map((item: any, index) => {
+      return (
+        <Fragment key={index}>
+          <AudioItem {...item} />
+        </Fragment>
+      );
+    });
+  };
+
   return (
     <SafeAreaView>
       <StatusBar />
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.container}>
           <Text>list Audio</Text>
-          <Icons
-            name="add"
-            type={EIconTypes.Ionicons}
-            size={12}
-            color={COLORS.GREY_SCORPION}></Icons>
 
-          <Button
-            title="open picker for single file selection"
-            onPress={async () => {
-              try {
-                const pickerResult = await DocumentPicker.pickSingle({
-                  presentationStyle: 'fullScreen',
-                  copyTo: 'cachesDirectory',
-                });
-                const sound = new Sound(pickerResult.fileCopyUri?.split("file://")[1], Sound.MAIN_BUNDLE, error => {
-                  console.log({error});
-                  sound.play()
-                });
-                sound.play()
-                console.log({pickerResult, sound, path : pickerResult.fileCopyUri?.split("file://")[1]});
-              } catch (e) {
-                console.log(e);
-              }
-            }}
-          />
+          {renderAudios()}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -75,8 +68,7 @@ function SListAudio(): React.JSX.Element {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: COLORS.GREY_BG,
   },
 });
 

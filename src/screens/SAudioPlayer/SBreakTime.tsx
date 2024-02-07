@@ -16,6 +16,7 @@ import Input from '../../components/atom/Input';
 import CButton from '../../components/atom/Button';
 import BreakTimeItem from './components/BreakTimeItem';
 import BreakTimeControl from './components/BreakTimeControl';
+import {useRoute} from '@react-navigation/native';
 
 const DATA = [
   {
@@ -53,7 +54,12 @@ const DATA = [
 ];
 
 export default function SBreakTime() {
+  const {params} = useRoute<any>();
   const [data, setData] = React.useState(DATA);
+
+  React.useEffect(() => {
+  }, []);
+
   return (
     <View style={styles.container}>
       <BreakTimeControl />

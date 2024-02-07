@@ -20,6 +20,11 @@ function NavigationMain() {
   return (
     <Stack.Navigator>
       <Stack.Screen
+        name={Routes.LIST_AUDIO}
+        component={SListAudio}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
         name={Routes.AUDIO_PLAYER}
         component={SAudioPlayer}
         options={{headerShown: false}}
@@ -29,11 +34,7 @@ function NavigationMain() {
         component={SAddAudio}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name={Routes.LIST_AUDIO}
-        component={SListAudio}
-        options={{headerShown: false}}
-      />
+
       <Stack.Screen
         name={Routes.HOME_SCREEN}
         component={SHome}

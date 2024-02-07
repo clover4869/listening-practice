@@ -4,6 +4,7 @@ import { SceneMap, TabView } from 'react-native-tab-view';
 import SBreakTime from './SBreakTime';
 import STranscript from './STranscript';
 import PlayerControl from './components/PlayerControl';
+import { useRoute } from '@react-navigation/native';
 
 const renderScene = SceneMap({
   first: SBreakTime,
@@ -11,6 +12,7 @@ const renderScene = SceneMap({
 });
 
 export default function SAudioPlayer() {
+
   const layout = useWindowDimensions();
 
   const [index, setIndex] = React.useState(0);

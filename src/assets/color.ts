@@ -77,8 +77,11 @@ enum COLORS {
 
   WHITE = '#FFF',
   WHITE_GREY = '#f6f4f0',
-  OPACITY = 'rgba(0, 0, 0, 0.0)',
+  OPACITY = 'rgba(255,255,255, 0.09)',
   MISCHKA_WHITE = '#DFE1E6',
+
+
+  GREY_BG = 'rgba(0, 0, 0, 0.7)'
   
 }
 export default COLORS

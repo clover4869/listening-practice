@@ -14,6 +14,7 @@ import {usePlayerStore} from '../../../store/zustand/usePlayerStore';
 import COLORS from '../../../assets/color';
 import Slider from '@react-native-community/slider';
 import {convertTimeString} from '../../../shared/convert';
+import { useRoute } from '@react-navigation/native';
 
 const DATA = {
   id: 0,
@@ -37,6 +38,8 @@ interface IPlayer {
 }
 
 export default function PlayerControl() {
+  const {params} = useRoute<any>();
+  const {path, type} = params
   const {
     sound,
     isChangingInput,
@@ -58,20 +61,26 @@ export default function PlayerControl() {
         return;
       }
       setSound(sound);
-      setDuration(sound.duration)
+
+      console.log('sound.duration', sound.getDuration());
+      
+      setDuration(sound.getDuration())
     };
 
     if (sound) {
       (sound as any)?.release();
     }
+
     const soundInit = new Sound(
-      'https://english-practice.net/wp-content/uploads/2022/01/listening-practice-through-dictation-1-01.mp3',
+      path,
       undefined,
       error => callback(error, soundInit),
     ) as any;
   }
 
   React.useEffect(() => {
+    console.log({params});
+    
     initSound();
   }, []);
 
@@ -190,7 +199,6 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     flex: 1,
-    // width: '100%',
   },
   progressWrapper: {
     flexDirection: 'row',

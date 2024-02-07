@@ -80,10 +80,9 @@ interface IFind {
   search?: string;
 }
 
-async function find({search}: IFind) {
+async function find({search}: IFind): Promise<any> {
   try {
     let {rows} = await db.executeAsync('SELECT * FROM audio');
-
     return rows;
   } catch (e) {
     console.error('Something went wrong executing SQL commands:', e);
