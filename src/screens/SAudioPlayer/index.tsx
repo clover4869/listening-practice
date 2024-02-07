@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {Text, View, useWindowDimensions} from 'react-native';
-import {TabView, SceneMap} from 'react-native-tab-view';
-import STranscript from './STranscript';
+import { useWindowDimensions } from 'react-native';
+import { SceneMap, TabView } from 'react-native-tab-view';
 import SBreakTime from './SBreakTime';
+import STranscript from './STranscript';
 import PlayerControl from './components/PlayerControl';
 
 const renderScene = SceneMap({
@@ -18,6 +18,9 @@ export default function SAudioPlayer() {
     {key: 'first', title: 'First'},
     {key: 'second', title: 'Second'},
   ]);
+
+  React.useEffect(() => {
+  }, [])
 
   return (
     <TabView

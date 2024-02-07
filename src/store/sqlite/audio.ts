@@ -1,7 +1,6 @@
 import {open} from 'react-native-quick-sqlite';
 import {AUDIO_FILE_TYPE} from '../../constant/audio';
-
-const db = open({name: 'mydata1', location: '../data'});
+import {db} from './sqliteConfig';
 
 interface IInsertOne {
   name: string;
@@ -45,8 +44,11 @@ async function insertMany(records: IInsertOne[]) {
       {name, path, duration, listen_number, transcript, type, topic, level},
       index,
     ) => {
-      stringInsertValue += '(?, ?, ?, ?, ?, ?, ?, ? )';
-      if (index < records.length - 1) stringInsertValue + ',';
+      const isNotEnd = index < records.length - 1;
+      stringInsertValue += isNotEnd
+        ? '(?, ?, ?, ?, ?, ?, ?, ? ) , '
+        : '(?, ?, ?, ?, ?, ?, ?, ? )';
+
       dataInsert.push(
         name,
         path,
@@ -61,13 +63,14 @@ async function insertMany(records: IInsertOne[]) {
   );
 
   try {
-    let nsert = await db.executeAsync(
-      `
-        INSERT INTO audio (name,path,duration,listen_number, transcript, type, topic, level)
-    VALUES ${stringInsertValue};`,
-      dataInsert,
-    );
+    const queryString = `
+    INSERT INTO audio (name,path,duration,listen_number, transcript, type, topic, level)
+VALUES ${stringInsertValue};`;
+
+    let nsert = await db.executeAsync(queryString, dataInsert);
     let {rows} = db.execute('SELECT * FROM audio');
+
+    return rows;
   } catch (e) {
     console.error('Something went wrong executing SQL commands:', e);
   }
@@ -118,4 +121,5 @@ async function updateOne({id}: IUpdateOne) {
   }
 }
 
-export {insertMany, insertOne, updateOne, remove};
+export {insertMany, insertOne, updateOne, remove, find};
+export type {IInsertOne};
