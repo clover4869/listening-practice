@@ -14,7 +14,7 @@ import {insetDataSeed} from './src/store/sqlite/dataSeed';
 function App(): React.JSX.Element {
   useEffect(() => {
     createTableAudio();
-    insetDataSeed();
+    setTimeout(insetDataSeed,100)
   }, []);
   return <NavigationApp />;
 }
