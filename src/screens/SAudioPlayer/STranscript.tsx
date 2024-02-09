@@ -7,7 +7,7 @@ export default function STranscript() {
   const { params } = useRoute<any>();
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'red' }}>
+    <View className="bg-white" >
       <Text> {params.transcript} </Text>
     </View>
   );
