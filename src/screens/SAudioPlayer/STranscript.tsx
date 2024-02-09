@@ -1,11 +1,14 @@
+import { useRoute } from '@react-navigation/native';
 import * as React from 'react';
-import {Text, View, useWindowDimensions} from 'react-native';
-import {TabView, SceneMap} from 'react-native-tab-view';
+import { Text, View, useWindowDimensions } from 'react-native';
+import { TabView, SceneMap } from 'react-native-tab-view';
 
 export default function STranscript() {
+  const { params } = useRoute<any>();
+
   return (
-    <View style={{flex: 1, backgroundColor: 'red'}}>
-      <Text>STranscript</Text>
+    <View style={{ flex: 1, backgroundColor: 'red' }}>
+      <Text> {params.transcript} </Text>
     </View>
   );
 }
