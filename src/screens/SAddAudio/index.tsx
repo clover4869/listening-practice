@@ -5,36 +5,28 @@
  * @format
  */
 
-import React, {useEffect} from 'react';
+import React, { useState } from 'react';
 import {
-  Button,
   SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
+  StyleSheet
 } from 'react-native';
-import DocumentPicker, {
-  DirectoryPickerResponse,
-  DocumentPickerResponse,
-  isCancel,
-  isInProgress,
-  types,
-} from 'react-native-document-picker';
-import Sound from 'react-native-sound';
 
-import Icons, {EIconTypes} from '../../assets/Icon';
+import { useNavigation } from '@react-navigation/native';
+import DropDownPicker from 'react-native-dropdown-picker';
 import COLORS from '../../assets/color';
-import {createTableAudio} from '../../store/sqlite/sqliteConfig';
-import {useNavigation} from '@react-navigation/native';
-import {Routes} from '../../navigator/types';
+import Select from '../../components/atom/Select/Select';
+DropDownPicker.setTheme("DARK");
 
 function SAddAudio(): React.JSX.Element {
   const navigation = useNavigation<any>();
+  const [value, setValue] = useState('');
   return (
-    <SafeAreaView>
-      <StatusBar />
+    <SafeAreaView style={styles.container} >
+      <Select value={value} onChange={value => setValue(value)} options={[
+        { label: 'Apple', value: 'apple' },
+        { label: 'Banana', value: 'banana' }
+      ]} />
+      {/* <StatusBar />
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.container}>
           <Text>Add Audio</Text>
@@ -78,15 +70,15 @@ function SAddAudio(): React.JSX.Element {
               navigation.navigate(Routes.LIST_AUDIO);
             }}></Button>
         </View>
-      </ScrollView>
+      </ScrollView> */}
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: COLORS.GREY_BG,
+    height: '100%'
   },
 });
 
