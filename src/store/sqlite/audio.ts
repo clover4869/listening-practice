@@ -74,7 +74,7 @@ interface IFind {
 
 async function find({ search }: IFind): Promise<any> {
   try {
-    let { rows } = await db.executeAsync('SELECT * FROM audio');
+    let { rows } = await db.executeAsync(`SELECT * FROM audio WHERE name LIKE '%${search}%' `, [search]);
     return rows;
   } catch (e) {
     console.error('Something went wrong executing SQL commands:', e);

@@ -1,5 +1,6 @@
-import {AUDIO_FILE_TYPE} from '../../constant/audio';
-import {IInsertOne, find, insertMany} from './audio';
+import { AUDIO_FILE_TYPE } from '../../constant/audio';
+import { IAudio } from '../zustand/usePlayerStore';
+import { find, insertMany } from './audio';
 
 const lessons = [
   {
@@ -1477,11 +1478,11 @@ const getUnit = (lessonId: number, unitId: number) => {
 };
 
 const insetDataSeed = async () => {
-  const dataCurrent = await find({});
+  const dataCurrent = await find({ search: '' });
   if (dataCurrent?.length) return;
-  const data: IInsertOne[] = [];
-  lessons.forEach(({units, id}) => {
-    units.forEach(({title, topic, src, content}) => {
+  const data: IAudio[] = [];
+  lessons.forEach(({ units, id }) => {
+    units.forEach(({ title, topic, src, content }) => {
       data.push({
         name: title,
         topic,
@@ -1498,4 +1499,4 @@ const insetDataSeed = async () => {
   await insertMany(data);
 };
 
-export {lessons, getLesson, getUnit, insetDataSeed};
+export { lessons, getLesson, getUnit, insetDataSeed };

@@ -54,7 +54,7 @@ const BreakTimeControl: FC<IBreakTimeControl> = ({}) => {
           placeholder="End"
         />
       </View>
-      <CButton style={styles.button} onPress={handleSubmit}>
+      <CButton style={styles.button} className='w-full' onPress={handleSubmit}>
         <Text style={styles.text}>Break time</Text>
       </CButton>
     </View>
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
   input: {
     minHeight: 50,
-    width: '50%',
+    width: '46%',
     padding: 12,
     color: COLORS.WHITE,
     fontSize: 15,
