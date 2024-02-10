@@ -31,8 +31,12 @@ import { find } from '../../store/sqlite/audio';
 import AudioItem from './components/AudioItem';
 import CInput, { ECInputType } from '../../components/atom/Input';
 import CButton from '../../components/atom/Button';
+import { useNavigation } from '@react-navigation/native';
+import { Routes } from '../../navigator/types';
 
 function SListAudio(): React.JSX.Element {
+  const navigation = useNavigation<any>();
+
   const [audios, setAudios] = useState([]);
   const [search, setSeach] = useState('');
 
@@ -59,7 +63,10 @@ function SListAudio(): React.JSX.Element {
     });
   };
 
-  const handleAddAudio = () => { }
+  const handleAddAudio = () => {
+    navigation.navigate(Routes.ADD_AUDIO);
+
+  }
 
   return (
     <View style={styles.container}>
@@ -98,7 +105,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     justifyContent: 'center',
     alignItems: 'center',
-    width : 50
+    width: 50
   },
   input: {
     minHeight: 50,
@@ -110,7 +117,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: 'transparent',
     marginBottom: 12,
-    flex : 1
+    flex: 1
   },
   text: {
     color: COLORS.WHITE,
