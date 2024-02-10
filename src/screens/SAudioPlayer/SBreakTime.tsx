@@ -14,12 +14,12 @@ import BreakTimeControl from './components/BreakTimeControl';
 import BreakTimeItem from './components/BreakTimeItem';
 
 export default function SBreakTime() {
-  const {params} = useRoute<any>();
-  const {breaks, initBreak} = useBreaksStore()
+  const { params } = useRoute<any>();
+  const { breaks, initBreak } = useBreaksStore()
 
   React.useEffect(() => {
     (async function () {
-      const breaks : any = await findAll(params.id);
+      const breaks: any = await findAll(params.id);
       initBreak(breaks)
     })();
   }, []);
@@ -30,9 +30,9 @@ export default function SBreakTime() {
       <NestableScrollContainer>
         <NestableDraggableFlatList
           data={breaks}
-          renderItem={props => <BreakTimeItem {...props} onRemove={() => {}} />}
-          keyExtractor={(item : any) => item.id}
-          onDragEnd={({data} : any) => initBreak(data)}
+          renderItem={props => <BreakTimeItem {...props} onRemove={() => { }} />}
+          keyExtractor={(item: any) => item.id}
+          onDragEnd={({ data }: any) => initBreak(data)}
         />
       </NestableScrollContainer>
     </View>

@@ -13,26 +13,6 @@ import COLORS from '../../../assets/color';
 import { convertTimeString } from '../../../shared/convert';
 import { usePlayerStore } from '../../../store/zustand/usePlayerStore';
 
-const DATA = {
-  id: 0,
-  name: 'text',
-  path: 'https://english-practice.net/wp-content/uploads/2022/01/listening-practice-through-dictation-1-01.mp3',
-  duration: 0,
-  listen_number: 0,
-  transcript: 'text',
-  type: 'text',
-  topic: 'text',
-  level: 0,
-};
-
-interface IPlayer {
-  sound: any;
-  isChangingInput: boolean;
-  isPlay: boolean;
-  start: number;
-  end: number;
-  position: number;
-}
 
 export default function PlayerControl() {
   const {
