@@ -5,6 +5,8 @@ import SBreakTime from './SBreakTime';
 import STranscript from './STranscript';
 import PlayerControl from './components/PlayerControl';
 import { useRoute } from '@react-navigation/native';
+import { findOne } from '../../store/sqlite/audio';
+import { usePlayerStore } from '../../store/zustand/usePlayerStore';
 
 const renderScene = SceneMap({
   first: SBreakTime,
@@ -12,24 +14,30 @@ const renderScene = SceneMap({
 });
 
 export default function SAudioPlayer() {
+  const { params } = useRoute<any>();
+  const { setAudioInfo } = usePlayerStore()
 
   const layout = useWindowDimensions();
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    {key: 'first', title: 'First'},
-    {key: 'second', title: 'Second'},
+    { key: 'first', title: 'First' },
+    { key: 'second', title: 'Second' },
   ]);
 
   React.useEffect(() => {
+    (async function () {
+      const row = await findOne(params.id)
+      setAudioInfo(row)
+    })()
   }, [])
 
   return (
     <TabView
-      navigationState={{index, routes}}
+      navigationState={{ index, routes }}
       renderScene={renderScene}
       onIndexChange={setIndex}
-      initialLayout={{width: layout.width}}
+      initialLayout={{ width: layout.width }}
       renderTabBar={PlayerControl}
       tabBarPosition="bottom"
     />

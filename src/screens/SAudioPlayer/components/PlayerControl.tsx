@@ -1,20 +1,17 @@
+import Slider from '@react-native-community/slider';
 import * as React from 'react';
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  useWindowDimensions,
+  View
 } from 'react-native';
-import {TabView, SceneMap} from 'react-native-tab-view';
-import Icons, {EIconTypes} from '../../../assets/Icon';
-import Sound from 'react-native-sound';
 import BackgroundTimer from 'react-native-background-timer';
-import {usePlayerStore} from '../../../store/zustand/usePlayerStore';
+import Sound from 'react-native-sound';
+import Icons, { EIconTypes } from '../../../assets/Icon';
 import COLORS from '../../../assets/color';
-import Slider from '@react-native-community/slider';
-import {convertTimeString} from '../../../shared/convert';
-import { useRoute } from '@react-navigation/native';
+import { convertTimeString } from '../../../shared/convert';
+import { usePlayerStore } from '../../../store/zustand/usePlayerStore';
 
 const DATA = {
   id: 0,
@@ -38,8 +35,6 @@ interface IPlayer {
 }
 
 export default function PlayerControl() {
-  const {params} = useRoute<any>();
-  const {path, type} = params
   const {
     sound,
     isChangingInput,
@@ -47,7 +42,7 @@ export default function PlayerControl() {
     start,
     end,
     position,
-    duration,
+    duration, path,
     setSound,
     setPeriod,
     setPosition,
@@ -63,7 +58,7 @@ export default function PlayerControl() {
       setSound(sound);
 
       console.log('sound.duration', sound.getDuration());
-      
+
       setDuration(sound.getDuration())
     };
 
@@ -79,8 +74,6 @@ export default function PlayerControl() {
   }
 
   React.useEffect(() => {
-    console.log({params});
-    
     initSound();
   }, []);
 
@@ -150,7 +143,7 @@ export default function PlayerControl() {
 
       {/* button control zone */}
       <View style={styles.buttonControlContainer}>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => { }}>
           <Icons
             type={EIconTypes.Feather}
             name={'rotate-ccw'}
@@ -170,7 +163,7 @@ export default function PlayerControl() {
             color={COLORS.YELLOW_BUTTERMILK}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => { }}>
           <Icons
             type={EIconTypes.Feather}
             name={'rotate-cw'}

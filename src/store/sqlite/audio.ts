@@ -1,17 +1,9 @@
-import {open} from 'react-native-quick-sqlite';
-import {AUDIO_FILE_TYPE} from '../../constant/audio';
-import {db} from './sqliteConfig';
+import { open } from 'react-native-quick-sqlite';
+import { AUDIO_FILE_TYPE } from '../../constant/audio';
+import { db } from './sqliteConfig';
+import { IAudio } from '../zustand/usePlayerStore';
 
-interface IInsertOne {
-  name: string;
-  path: string;
-  duration: number;
-  listen_number: number;
-  transcript: string;
-  type: AUDIO_FILE_TYPE;
-  topic: string;
-  level: number;
-}
+
 
 async function insertOne({
   name,
@@ -22,7 +14,7 @@ async function insertOne({
   transcript,
   type,
   topic,
-}: IInsertOne) {
+}: IAudio) {
   try {
     let dataInsert = await db.executeAsync(
       `
@@ -30,18 +22,18 @@ async function insertOne({
     VALUES (?, ?, ?, ?, ?, ?, ?, ? );`,
       [name, path, duration, listen_number, transcript, type, topic, level],
     );
-    let {rows} = db.execute('SELECT * FROM audio');
+    let { rows } = db.execute('SELECT * FROM audio');
   } catch (e) {
     console.error('Something went wrong executing SQL commands:', e);
   }
 }
 
-async function insertMany(records: IInsertOne[]) {
+async function insertMany(records: IAudio[]) {
   let stringInsertValue = '';
   const dataInsert: any[] | undefined = [];
   records.forEach(
     (
-      {name, path, duration, listen_number, transcript, type, topic, level},
+      { name, path, duration, listen_number, transcript, type, topic, level },
       index,
     ) => {
       const isNotEnd = index < records.length - 1;
@@ -68,7 +60,7 @@ async function insertMany(records: IInsertOne[]) {
 VALUES ${stringInsertValue};`;
 
     let nsert = await db.executeAsync(queryString, dataInsert);
-    let {rows} = db.execute('SELECT * FROM audio');
+    let { rows } = db.execute('SELECT * FROM audio');
 
     return rows;
   } catch (e) {
@@ -80,10 +72,19 @@ interface IFind {
   search?: string;
 }
 
-async function find({search}: IFind): Promise<any> {
+async function find({ search }: IFind): Promise<any> {
   try {
-    let {rows} = await db.executeAsync('SELECT * FROM audio');
+    let { rows } = await db.executeAsync('SELECT * FROM audio');
     return rows;
+  } catch (e) {
+    console.error('Something went wrong executing SQL commands:', e);
+  }
+}
+
+async function findOne(id: string | number): Promise<any> {
+  try {
+    let { rows } = await db.executeAsync('SELECT * FROM audio where id = ?', [id]);
+    return rows?._array;
   } catch (e) {
     console.error('Something went wrong executing SQL commands:', e);
   }
@@ -92,9 +93,9 @@ async function find({search}: IFind): Promise<any> {
 interface IRemove {
   id: number | string;
 }
-async function remove({id}: IRemove) {
+async function remove({ id }: IRemove) {
   try {
-    let {rows} = await db.executeAsync('DELETE from audio where id = ?', [id]);
+    let { rows } = await db.executeAsync('DELETE from audio where id = ?', [id]);
     return rows;
   } catch (e) {
     console.error('Something went wrong executing SQL commands:', e);
@@ -105,7 +106,7 @@ interface IUpdateOne {
   id: number | string;
 }
 
-async function updateOne({id}: IUpdateOne) {
+async function updateOne({ id }: IUpdateOne) {
   try {
     let dataInsert = await db.executeAsync(
       `
@@ -114,11 +115,10 @@ async function updateOne({id}: IUpdateOne) {
     `,
       [id],
     );
-    let {rows} = db.execute('SELECT * FROM audio');
+    let { rows } = db.execute('SELECT * FROM audio');
   } catch (e) {
     console.error('Something went wrong executing SQL commands:', e);
   }
 }
 
-export {insertMany, insertOne, updateOne, remove, find};
-export type {IInsertOne};
+export { insertMany, insertOne, updateOne, remove, find, findOne };
