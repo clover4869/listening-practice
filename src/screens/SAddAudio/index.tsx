@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { Button, SafeAreaView, StyleSheet, View } from 'react-native';
+import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -18,6 +18,7 @@ import CInput from '../../components/atom/Input';
 DropDownPicker.setTheme('DARK');
 
 import * as Yup from 'yup';
+import InputDocumentPicker from '../../components/atom/DocumentPicker/InputDocumentPicker';
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -54,6 +55,11 @@ function SAddAudio(): React.JSX.Element {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View className="shadow-[5px_5px_0px_0px_rgba(109,40,217)] border-white border-spacing-1">
+        <Text className=" text-white text-xl font-bold text-center py-2 mb-3 ">
+          Add Audio
+        </Text>
+      </View>
       <Formik
         initialValues={initialValues}
         onSubmit={(values) => console.log(values)}
@@ -84,6 +90,16 @@ function SAddAudio(): React.JSX.Element {
                     value={values.pathDrive}
                     error={errors.pathDrive}
                     placeholder="Path Drive"
+                  />
+                );
+              }
+
+              case AUDIO_FILE_TYPE.LOCAL_FILE: {
+                return (
+                  <InputDocumentPicker
+                    onChange={handleChange('pathFile')}
+                    value={values.pathFile}
+                    error={errors.pathFile}
                   />
                 );
               }
@@ -131,52 +147,6 @@ function SAddAudio(): React.JSX.Element {
           );
         }}
       </Formik>
-
-      {/* <StatusBar />
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <View style={styles.container}>
-          <Text>Add Audio</Text>
-          <Icons
-            name="add"
-            type={EIconTypes.Ionicons}
-            size={12}
-            color={COLORS.GREY_SCORPION}></Icons>
-
-          <Button
-            title="open picker for single file selection"
-            onPress={async () => {
-              try {
-                const pickerResult = await DocumentPicker.pickSingle({
-                  presentationStyle: 'fullScreen',
-                  copyTo: 'cachesDirectory',
-                });
-                const sound = new Sound(
-                  pickerResult.fileCopyUri?.split('file://')[1],
-                  Sound.MAIN_BUNDLE,
-                  error => {
-                    console.log({error});
-                    sound.play();
-                  },
-                );
-                sound.play();
-                console.log({
-                  pickerResult,
-                  sound,
-                  path: pickerResult.fileCopyUri?.split('file://')[1],
-                });
-              } catch (e) {
-                console.log(e);
-              }
-            }}
-          />
-
-          <Button
-            title="list audio"
-            onPress={() => {
-              navigation.navigate(Routes.LIST_AUDIO);
-            }}></Button>
-        </View>
-      </ScrollView> */}
     </SafeAreaView>
   );
 }

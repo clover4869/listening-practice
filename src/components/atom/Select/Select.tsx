@@ -40,7 +40,7 @@ const CSelect: React.FC<ISelect> = ({ value, onChange, options, label, error }) 
     }, [selected])
 
     return (
-        <View>
+        <View className='py-2' >
             {label && <Text> {label} </Text>}
             <DropDownPicker
                 open={open}
