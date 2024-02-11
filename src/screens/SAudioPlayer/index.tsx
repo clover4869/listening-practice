@@ -28,6 +28,8 @@ export default function SAudioPlayer() {
   React.useEffect(() => {
     (async function () {
       const row = await findOne(params.id)
+      console.log(row);
+      
       setAudioInfo(row[0])
     })()
   }, [])

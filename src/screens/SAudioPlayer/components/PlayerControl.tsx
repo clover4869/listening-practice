@@ -1,18 +1,12 @@
 import Slider from '@react-native-community/slider';
 import * as React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import BackgroundTimer from 'react-native-background-timer';
 import Sound from 'react-native-sound';
 import Icons, { EIconTypes } from '../../../assets/Icon';
 import COLORS from '../../../assets/color';
 import { convertTimeString } from '../../../shared/convert';
 import { usePlayerStore } from '../../../store/zustand/usePlayerStore';
-
 
 export default function PlayerControl() {
   const {
@@ -22,12 +16,13 @@ export default function PlayerControl() {
     start,
     end,
     position,
-    duration, path,
+    duration,
+    path,
     setSound,
     setPeriod,
     setPosition,
     setPlay,
-    setDuration
+    setDuration,
   } = usePlayerStore();
 
   function initSound() {
@@ -36,26 +31,21 @@ export default function PlayerControl() {
         return;
       }
       setSound(sound);
-
-      console.log('sound.duration', sound.getDuration());
-
-      setDuration(sound.getDuration())
+      setDuration(sound.getDuration());
     };
 
     if (sound) {
       (sound as any)?.release();
     }
 
-    const soundInit = new Sound(
-      path,
-      undefined,
-      error => callback(error, soundInit),
+    const soundInit = new Sound(path, undefined, (error) =>
+      callback(error, soundInit),
     ) as any;
   }
 
   React.useEffect(() => {
     initSound();
-  }, []);
+  }, [path]);
 
   React.useEffect(() => {
     let interval: any = null;
@@ -101,7 +91,7 @@ export default function PlayerControl() {
           thumbTintColor="#FFD369"
           minimumTrackTintColor="#FFD369"
           maximumTrackTintColor="#fff"
-          onSlidingComplete={async value => {
+          onSlidingComplete={async (value) => {
             // let tmp = value;
             // if (value > ABRepeat.end) {
             //   tmp = ABRepeat.end;
@@ -123,7 +113,7 @@ export default function PlayerControl() {
 
       {/* button control zone */}
       <View style={styles.buttonControlContainer}>
-        <TouchableOpacity onPress={() => { }}>
+        <TouchableOpacity onPress={() => {}}>
           <Icons
             type={EIconTypes.Feather}
             name={'rotate-ccw'}
@@ -133,17 +123,20 @@ export default function PlayerControl() {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
+            console.log({path});
+            
             (sound as any)?.play();
             setPlay(true);
-          }}>
+          }}
+        >
           <Icons
             type={EIconTypes.Feather}
-            name={'play'}
+            name={isPlay ? 'play' : 'pause'}
             size={25}
             color={COLORS.YELLOW_BUTTERMILK}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => { }}>
+        <TouchableOpacity onPress={() => {}}>
           <Icons
             type={EIconTypes.Feather}
             name={'rotate-cw'}
@@ -162,7 +155,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: COLORS.GREY_CHARCOAL,
     paddingHorizontal: 12,
-    paddingVertical: 18
+    paddingVertical: 18,
   },
   buttonControlContainer: {
     flexDirection: 'row',

@@ -3,8 +3,6 @@ import { AUDIO_FILE_TYPE } from '../../constant/audio';
 import { db } from './sqliteConfig';
 import { IAudio } from '../zustand/usePlayerStore';
 
-
-
 async function insertOne({
   name,
   path,
@@ -22,7 +20,7 @@ async function insertOne({
     VALUES (?, ?, ?, ?, ?, ?, ?, ? );`,
       [name, path, duration, listen_number, transcript, type, topic, level],
     );
-    let { rows } = db.execute('SELECT * FROM audio');
+    return dataInsert.insertId;
   } catch (e) {
     console.error('Something went wrong executing SQL commands:', e);
   }
@@ -74,7 +72,10 @@ interface IFind {
 
 async function find({ search }: IFind): Promise<any> {
   try {
-    let { rows } = await db.executeAsync(`SELECT * FROM audio WHERE name LIKE '%${search}%' `, [search]);
+    let { rows } = await db.executeAsync(
+      `SELECT * FROM audio WHERE name LIKE '%${search}%' `,
+      [search],
+    );
     return rows;
   } catch (e) {
     console.error('Something went wrong executing SQL commands:', e);
@@ -83,7 +84,9 @@ async function find({ search }: IFind): Promise<any> {
 
 async function findOne(id: string | number): Promise<any> {
   try {
-    let { rows } = await db.executeAsync('SELECT * FROM audio where id = ?', [id]);
+    let { rows } = await db.executeAsync('SELECT * FROM audio where id = ?', [
+      id,
+    ]);
     return rows?._array;
   } catch (e) {
     console.error('Something went wrong executing SQL commands:', e);
@@ -95,7 +98,9 @@ interface IRemove {
 }
 async function remove({ id }: IRemove) {
   try {
-    let { rows } = await db.executeAsync('DELETE from audio where id = ?', [id]);
+    let { rows } = await db.executeAsync('DELETE from audio where id = ?', [
+      id,
+    ]);
     return rows;
   } catch (e) {
     console.error('Something went wrong executing SQL commands:', e);

@@ -5,20 +5,22 @@
  * @format
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
+import { Formik } from 'formik';
 import DropDownPicker from 'react-native-dropdown-picker';
 import COLORS from '../../assets/color';
+import CInput from '../../components/atom/Input';
 import CSelect from '../../components/atom/Select/Select';
 import { AUDIO_FILE_TYPE } from '../../constant/audio';
-import { Formik } from 'formik';
-import CInput from '../../components/atom/Input';
 DropDownPicker.setTheme('DARK');
 
 import * as Yup from 'yup';
 import InputDocumentPicker from '../../components/atom/DocumentPicker/InputDocumentPicker';
+import { Routes } from '../../navigator/types';
+import { insertOne } from '../../store/sqlite/audio';
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string().required(),
@@ -40,9 +42,18 @@ interface IFormValue {
   level: number;
 }
 
+function getDriveFilePath(url: string) {
+  // Extract the file ID from the URL using a regular expression
+  const match = url.match(/\/file\/d\/([^\/]+)/);
+
+  // If there's a match, return the captured group (file ID), otherwise return null
+  return match
+    ? `https://docs.google.com/uc?export=download&id=${match[1]}`
+    : '';
+}
+
 function SAddAudio(): React.JSX.Element {
   const navigation = useNavigation<any>();
-  const [value, setValue] = useState<string>(AUDIO_FILE_TYPE.URL);
   const initialValues: IFormValue = {
     name: '',
     path: '',
@@ -56,8 +67,34 @@ function SAddAudio(): React.JSX.Element {
     level: 0,
   };
 
-  const handleSubmitForm = (values: IFormValue) => {
-    console.log({ values });
+  const getPath = (type: AUDIO_FILE_TYPE, values: IFormValue) => {
+    switch (type) {
+      default:
+      case AUDIO_FILE_TYPE.URL: {
+        return values.pathUrl;
+      }
+      case AUDIO_FILE_TYPE.DRIVE: {
+        return getDriveFilePath(values.pathDrive);
+      }
+      case AUDIO_FILE_TYPE.LOCAL_FILE: {
+        return values.pathFile;
+      }
+    }
+  };
+
+  const handleSubmitForm = async (values: IFormValue) => {
+    let path = getPath(values.type, values);
+
+    const data = {
+      ...values,
+      listen_number: 0,
+      duration: 0,
+      path,
+    };
+
+    const id = await insertOne(data);
+
+    navigation.navigate(Routes.AUDIO_PLAYER, { id });
   };
 
   return (
@@ -139,7 +176,7 @@ function SAddAudio(): React.JSX.Element {
                 placeholder="Topic"
               />
               <CSelect
-                value={value}
+                value={values.type}
                 onChange={handleChange('type')}
                 options={[
                   { label: 'Google Drive', value: AUDIO_FILE_TYPE.DRIVE },
