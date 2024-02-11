@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
-import { SafeAreaView, StyleSheet, Text, TextInput } from 'react-native';
-import { View } from 'react-native-reanimated/lib/typescript/Animated';
+import React, { ChangeEvent, FC } from 'react';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+import COLORS from '../../../assets/color';
 
 export enum ECInputType {
   number = 'numeric',
@@ -8,38 +8,68 @@ export enum ECInputType {
 }
 
 interface ICInput {
-  onChange: (value: string | number) => void;
+  onChange: (value: string | number | ChangeEvent<any> | any) => void;
   value: string | number;
   placeholder?: string;
   type?: ECInputType;
   style?: any;
   error?: string;
+  label?: string;
+  onBlur?: (e: any) => void;
 }
 
-const CInput: FC<ICInput> = ({ onChange, value, type, style, placeholder, error }) => {
+const CInput: FC<ICInput> = ({
+  onChange,
+  value,
+  type,
+  style,
+  placeholder,
+  error,
+  onBlur,
+  label,
+}) => {
   return (
-    <View>
+    <View className="py-2">
+      {label && <Text style={styles.textLabel}> {label} </Text>}
       <TextInput
-        style={[styles.input, style]}
-        onChangeText={text =>
+        style={[styles.input, style, error && styles.inputError]}
+        onChangeText={(text) =>
           onChange(type === ECInputType.number ? Number(text) : text)
         }
+        onBlur={onBlur}
         value={value.toString()}
         placeholder={placeholder}
         keyboardType={type || 'default'}
       />
 
-      {error && <Text>{error}</Text>}
+      {error && <Text style={styles.textError}>{error}</Text>}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   input: {
-    height: 40,
-    margin: 12,
+    minHeight: 50,
+    paddingHorizontal: 5,
+    color: COLORS.WHITE,
+    fontSize: 15,
     borderWidth: 1,
-    padding: 10,
+    backgroundColor: 'transparent',
+    borderColor: COLORS.LAVENDER,
+    borderRadius: 6,
+  },
+  inputError: {
+    borderColor: '#cc0033',
+  },
+  textError: {
+    color: '#cc0033',
+    fontSize: 12,
+    marginTop: 5,
+  },
+  textLabel: {
+    color: COLORS.WHITE,
+    marginBottom: 5,
+    fontSize: 16,
   },
 });
 

@@ -6,14 +6,22 @@
  */
 
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { Button, SafeAreaView, StyleSheet, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import COLORS from '../../assets/color';
 import Select from '../../components/atom/Select/Select';
 import { AUDIO_FILE_TYPE } from '../../constant/audio';
+import { Formik } from 'formik';
+import CInput from '../../components/atom/Input';
 DropDownPicker.setTheme('DARK');
+
+import * as Yup from 'yup';
+
+const SignupSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required('Required'),
+});
 
 function SAddAudio(): React.JSX.Element {
   const navigation = useNavigation<any>();
@@ -23,6 +31,7 @@ function SAddAudio(): React.JSX.Element {
     switch (value) {
       case AUDIO_FILE_TYPE.URL:
         {
+          return;
         }
         break;
 
@@ -42,6 +51,29 @@ function SAddAudio(): React.JSX.Element {
           { label: 'URL', value: AUDIO_FILE_TYPE.URL },
         ]}
       />
+
+      <Formik
+        initialValues={{ email: '' }}
+        onSubmit={(values) => console.log(values)}
+        validateOnChange={true}
+        validationSchema={SignupSchema}
+      >
+        {({ handleChange, handleBlur, handleSubmit, values, errors }) => {
+          console.log({ errors });
+
+          return (
+            <View>
+              <CInput
+                onChange={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+                error={errors.email}
+              />
+              <Button onPress={() => handleSubmit()} title="Submit" />
+            </View>
+          );
+        }}
+      </Formik>
 
       {/* <StatusBar />
       <ScrollView contentInsetAdjustmentBehavior="automatic">
