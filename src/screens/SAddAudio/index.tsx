@@ -6,17 +6,14 @@
  */
 
 import React, { useState } from 'react';
-import {
-  SafeAreaView,
-  StyleSheet
-} from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import COLORS from '../../assets/color';
 import Select from '../../components/atom/Select/Select';
 import { AUDIO_FILE_TYPE } from '../../constant/audio';
-DropDownPicker.setTheme("DARK");
+DropDownPicker.setTheme('DARK');
 
 function SAddAudio(): React.JSX.Element {
   const navigation = useNavigation<any>();
@@ -26,23 +23,25 @@ function SAddAudio(): React.JSX.Element {
     switch (value) {
       case AUDIO_FILE_TYPE.URL:
         {
-
         }
         break;
 
       default:
         break;
     }
-  }
+  };
 
   return (
-    <SafeAreaView style={styles.container} >
-      <Select value={value} onChange={value => setValue(value)} options={[
-        { label: 'Google Drive', value: AUDIO_FILE_TYPE.DRIVE },
-        { label: 'Local File', value: AUDIO_FILE_TYPE.LOCAL_FILE },
-        { label: 'URL', value: AUDIO_FILE_TYPE.URL }
-      ]} />
-
+    <SafeAreaView style={styles.container}>
+      <Select
+        value={value}
+        onChange={(value) => setValue(value)}
+        options={[
+          { label: 'Google Drive', value: AUDIO_FILE_TYPE.DRIVE },
+          { label: 'Local File', value: AUDIO_FILE_TYPE.LOCAL_FILE },
+          { label: 'URL', value: AUDIO_FILE_TYPE.URL },
+        ]}
+      />
 
       {/* <StatusBar />
       <ScrollView contentInsetAdjustmentBehavior="automatic">
@@ -96,7 +95,7 @@ function SAddAudio(): React.JSX.Element {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.GREY_BG,
-    height: '100%'
+    height: '100%',
   },
 });
 
