@@ -26,7 +26,7 @@ interface ISelect {
     error?: string;
 }
 
-const Select: React.FC<ISelect> = ({ value, onChange, options, label, error }) => {
+const CSelect: React.FC<ISelect> = ({ value, onChange, options, label, error }) => {
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState(value);
     const [items, setItems] = useState<ISelectItem[]>(options);
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Select;
+export default CSelect;

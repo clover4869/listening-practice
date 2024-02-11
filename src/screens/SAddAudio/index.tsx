@@ -11,7 +11,7 @@ import { Button, SafeAreaView, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import COLORS from '../../assets/color';
-import Select from '../../components/atom/Select/Select';
+import CSelect from '../../components/atom/Select/Select';
 import { AUDIO_FILE_TYPE } from '../../constant/audio';
 import { Formik } from 'formik';
 import CInput from '../../components/atom/Input';
@@ -115,7 +115,7 @@ function SAddAudio(): React.JSX.Element {
                 error={errors.topic}
                 placeholder="Topic"
               />
-              <Select
+              <CSelect
                 value={value}
                 onChange={handleChange('type')}
                 options={[
