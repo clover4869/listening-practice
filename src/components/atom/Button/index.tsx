@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { StyleSheet, TouchableHighlight, View } from 'react-native';
+import COLORS from '../../../assets/color';
 
 interface ICButton {
   onPress: () => void;
@@ -18,8 +19,13 @@ const CButton: FC<ICButton> = ({ onPress, children, style, className }) => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: 'red',
-    padding: 0,
+    minHeight: 50,
+    borderRadius: 6,
+    backgroundColor: COLORS.LAVENDER,
+    color: COLORS.WHITE,
+    fontSize: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

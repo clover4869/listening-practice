@@ -22,6 +22,8 @@ import InputDocumentPicker from '../../components/atom/DocumentPicker/InputDocum
 import { Routes } from '../../navigator/types';
 import { insertOne } from '../../store/sqlite/audio';
 import Header from '../../components/container/Header/Header';
+import CButton from '../../components/atom/Button';
+import CButtonText from '../../components/atom/Button/CButtonText';
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string().required(),
@@ -183,7 +185,10 @@ function SAddAudio(): React.JSX.Element {
               />
 
               {renderInputURL(values.type)}
-              <Button onPress={() => handleSubmit()} title="Submit" />
+              <CButtonText
+                onPress={() => handleSubmit()}
+                title="Submit"
+              ></CButtonText>
             </View>
           );
         }}
