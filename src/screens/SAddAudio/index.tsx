@@ -21,7 +21,10 @@ import * as Yup from 'yup';
 import InputDocumentPicker from '../../components/atom/DocumentPicker/InputDocumentPicker';
 
 const SignupSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Required'),
+  name: Yup.string().required(),
+  transcript: Yup.string().required(),
+  type: Yup.string().required(),
+  topic: Yup.string().required(),
 });
 
 interface IFormValue {
@@ -53,6 +56,10 @@ function SAddAudio(): React.JSX.Element {
     level: 0,
   };
 
+  const handleSubmitForm = (values: IFormValue) => {
+    console.log({ values });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View className="shadow-[5px_5px_0px_0px_rgba(109,40,217)] border-white border-spacing-1">
@@ -62,7 +69,7 @@ function SAddAudio(): React.JSX.Element {
       </View>
       <Formik
         initialValues={initialValues}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={handleSubmitForm}
         validateOnChange={true}
         validationSchema={SignupSchema}
       >

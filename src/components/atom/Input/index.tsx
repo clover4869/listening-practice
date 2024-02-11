@@ -51,7 +51,8 @@ const CInput: FC<ICInput> = ({
 const styles = StyleSheet.create({
   input: {
     minHeight: 50,
-    paddingHorizontal: 5,
+    padding: 5,
+    paddingHorizontal: 12,
     color: COLORS.WHITE,
     fontSize: 15,
     borderWidth: 1,
@@ -66,6 +67,7 @@ const styles = StyleSheet.create({
     color: '#cc0033',
     fontSize: 12,
     marginTop: 5,
+    paddingHorizontal: 10
   },
   textLabel: {
     color: COLORS.WHITE,
