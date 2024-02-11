@@ -33,6 +33,7 @@ import CInput, { ECInputType } from '../../components/atom/Input';
 import CButton from '../../components/atom/Button';
 import { useNavigation } from '@react-navigation/native';
 import { Routes } from '../../navigator/types';
+import CButtonText from '../../components/atom/Button/CButtonText';
 
 function SListAudio(): React.JSX.Element {
   const navigation = useNavigation<any>();
@@ -48,7 +49,7 @@ function SListAudio(): React.JSX.Element {
 
   useEffect(() => {
     const timeout = setTimeout(handleFilter, 100);
-    return () => clearTimeout(timeout)
+    return () => clearTimeout(timeout);
   }, [search]);
 
   const renderAudios = () => {
@@ -65,29 +66,29 @@ function SListAudio(): React.JSX.Element {
 
   const handleAddAudio = () => {
     navigation.navigate(Routes.ADD_AUDIO);
-
-  }
+  };
 
   return (
     <View style={styles.container}>
-      <View className='flex-row items-center' >
+      <View className="flex-row items-center">
         <CInput
           style={styles.input}
           value={search}
-          onChange={value => {
-            setSeach(value.toString())
+          onChange={(value) => {
+            setSeach(value.toString());
           }}
           type={ECInputType.text}
           placeholder="Search audio"
         />
-        <CButton style={styles.button} onPress={handleAddAudio}>
-          <Text style={styles.text}> Add </Text>
-        </CButton>
+        <CButtonText
+          style={styles.button}
+          styleText={styles.buttonText}
+          onPress={handleAddAudio}
+          title="Add"
+        ></CButtonText>
       </View>
 
-      <ScrollView className='flex-1 ' >
-        {renderAudios()}
-      </ScrollView>
+      <ScrollView className="flex-1 ">{renderAudios()}</ScrollView>
     </View>
   );
 }
@@ -95,17 +96,13 @@ function SListAudio(): React.JSX.Element {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.GREY_BG,
-    height: '100%'
+    height: '100%',
   },
   button: {
-    minHeight: 50,
-    borderRadius: 6,
-    backgroundColor: COLORS.LAVENDER,
-    color: COLORS.WHITE,
-    fontSize: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 50
+    width: 50,
+  },
+  buttonText: {
+    fontSize: 14,
   },
   input: {
     minHeight: 50,
@@ -117,7 +114,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: 'transparent',
     marginBottom: 12,
-    flex: 1
+    flex: 1,
   },
   text: {
     color: COLORS.WHITE,

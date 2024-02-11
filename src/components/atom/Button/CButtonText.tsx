@@ -8,6 +8,7 @@ interface ICButtonText {
   title: string;
   style?: any;
   className?: string;
+  styleText?: any;
 }
 
 const CButtonText: FC<ICButtonText> = ({
@@ -15,10 +16,13 @@ const CButtonText: FC<ICButtonText> = ({
   title,
   style,
   className,
+  styleText,
 }) => {
   return (
     <CButton onPress={onPress} style={style} className={className}>
-      <Text className=" text-white font-medium text-lg"> {title} </Text>
+      <Text style={[styleText]} className=" text-white font-medium text-lg">
+        {title}
+      </Text>
     </CButton>
   );
 };
