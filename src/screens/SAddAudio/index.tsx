@@ -21,6 +21,7 @@ import * as Yup from 'yup';
 import InputDocumentPicker from '../../components/atom/DocumentPicker/InputDocumentPicker';
 import { Routes } from '../../navigator/types';
 import { insertOne } from '../../store/sqlite/audio';
+import Header from '../../components/container/Header/Header';
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string().required(),
@@ -99,11 +100,7 @@ function SAddAudio(): React.JSX.Element {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View className="shadow-[5px_5px_0px_0px_rgba(109,40,217)] border-white border-spacing-1">
-        <Text className=" text-white text-xl font-bold text-center py-2 mb-3 ">
-          Add Audio
-        </Text>
-      </View>
+      <Header title="Add Audio" />
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmitForm}
@@ -153,7 +150,7 @@ function SAddAudio(): React.JSX.Element {
             }
           };
           return (
-            <View>
+            <View className="px-2">
               <CInput
                 onChange={handleChange('name')}
                 onBlur={handleBlur('name')}
