@@ -69,7 +69,7 @@ enum COLORS {
   GREY_CHARCOAL = '#3F3F40',
   
   GREY_LIGHT = '#626160ff',
-  GREY_LIGHT2 = '#636160ff',
+  GREY_LIGHT2 = '#727272',
 
   LAVENDER = '#5e4dcd',
 

@@ -37,9 +37,10 @@ const CInput: FC<ICInput> = ({
           onChange(type === ECInputType.number ? Number(text) : text)
         }
         onBlur={onBlur}
-        value={value.toString()}
+        value={value?.toString()}
         placeholder={placeholder}
         keyboardType={type || 'default'}
+        placeholderTextColor={COLORS.GREY_LIGHT2}
       />
 
       {error && <Text style={styles.textError}>{error}</Text>}

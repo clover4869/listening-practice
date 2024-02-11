@@ -23,52 +23,109 @@ const SignupSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
 });
 
+interface IFormValue {
+  name: string;
+  path: string;
+  pathUrl: string;
+  pathDrive: string;
+  pathFile: string;
+  duration?: number;
+  transcript: string;
+  type: AUDIO_FILE_TYPE;
+  topic: string;
+  level: number;
+}
+
 function SAddAudio(): React.JSX.Element {
   const navigation = useNavigation<any>();
   const [value, setValue] = useState<string>(AUDIO_FILE_TYPE.URL);
-
-  const renderInput = () => {
-    switch (value) {
-      case AUDIO_FILE_TYPE.URL:
-        {
-          return;
-        }
-        break;
-
-      default:
-        break;
-    }
+  const initialValues: IFormValue = {
+    name: '',
+    path: '',
+    pathDrive: '',
+    pathFile: '',
+    pathUrl: '',
+    duration: 0,
+    transcript: '',
+    type: AUDIO_FILE_TYPE.URL,
+    topic: '',
+    level: 0,
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Select
-        value={value}
-        onChange={(value) => setValue(value)}
-        options={[
-          { label: 'Google Drive', value: AUDIO_FILE_TYPE.DRIVE },
-          { label: 'Local File', value: AUDIO_FILE_TYPE.LOCAL_FILE },
-          { label: 'URL', value: AUDIO_FILE_TYPE.URL },
-        ]}
-      />
-
       <Formik
-        initialValues={{ email: '' }}
+        initialValues={initialValues}
         onSubmit={(values) => console.log(values)}
         validateOnChange={true}
         validationSchema={SignupSchema}
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors }) => {
           console.log({ errors });
+          const renderInputURL = (type: AUDIO_FILE_TYPE) => {
+            switch (type) {
+              case AUDIO_FILE_TYPE.URL: {
+                return (
+                  <CInput
+                    onChange={handleChange('pathUrl')}
+                    onBlur={handleBlur('pathUrl')}
+                    value={values.pathUrl}
+                    error={errors.pathUrl}
+                    placeholder="Path URL"
+                  />
+                );
+              }
 
+              case AUDIO_FILE_TYPE.DRIVE: {
+                return (
+                  <CInput
+                    onChange={handleChange('pathDrive')}
+                    onBlur={handleBlur('pathDrive')}
+                    value={values.pathDrive}
+                    error={errors.pathDrive}
+                    placeholder="Path Drive"
+                  />
+                );
+              }
+
+              default:
+                break;
+            }
+          };
           return (
             <View>
               <CInput
-                onChange={handleChange('email')}
-                onBlur={handleBlur('email')}
-                value={values.email}
-                error={errors.email}
+                onChange={handleChange('name')}
+                onBlur={handleBlur('name')}
+                placeholder="Name"
+                value={values.name}
+                error={errors.name}
               />
+              <CInput
+                onChange={handleChange('transcript')}
+                onBlur={handleBlur('transcript')}
+                value={values.transcript}
+                error={errors.transcript}
+                placeholder="Transcript"
+              />
+              <CInput
+                onChange={handleChange('topic')}
+                onBlur={handleBlur('topic')}
+                value={values.topic}
+                error={errors.topic}
+                placeholder="Topic"
+              />
+              <Select
+                value={value}
+                onChange={handleChange('type')}
+                options={[
+                  { label: 'Google Drive', value: AUDIO_FILE_TYPE.DRIVE },
+                  { label: 'Local File', value: AUDIO_FILE_TYPE.LOCAL_FILE },
+                  { label: 'URL', value: AUDIO_FILE_TYPE.URL },
+                ]}
+              />
+
+              {renderInputURL(values.type)}
               <Button onPress={() => handleSubmit()} title="Submit" />
             </View>
           );
