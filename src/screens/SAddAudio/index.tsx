@@ -15,17 +15,35 @@ import { useNavigation } from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import COLORS from '../../assets/color';
 import Select from '../../components/atom/Select/Select';
+import { AUDIO_FILE_TYPE } from '../../constant/audio';
 DropDownPicker.setTheme("DARK");
 
 function SAddAudio(): React.JSX.Element {
   const navigation = useNavigation<any>();
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState<string>(AUDIO_FILE_TYPE.URL);
+
+  const renderInput = () => {
+    switch (value) {
+      case AUDIO_FILE_TYPE.URL:
+        {
+
+        }
+        break;
+
+      default:
+        break;
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container} >
       <Select value={value} onChange={value => setValue(value)} options={[
-        { label: 'Apple', value: 'apple' },
-        { label: 'Banana', value: 'banana' }
+        { label: 'Google Drive', value: AUDIO_FILE_TYPE.DRIVE },
+        { label: 'Local File', value: AUDIO_FILE_TYPE.LOCAL_FILE },
+        { label: 'URL', value: AUDIO_FILE_TYPE.URL }
       ]} />
+
+
       {/* <StatusBar />
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={styles.container}>

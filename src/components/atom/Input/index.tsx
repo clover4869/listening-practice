@@ -1,5 +1,6 @@
-import React, {FC} from 'react';
-import {SafeAreaView, StyleSheet, TextInput} from 'react-native';
+import React, { FC } from 'react';
+import { SafeAreaView, StyleSheet, Text, TextInput } from 'react-native';
+import { View } from 'react-native-reanimated/lib/typescript/Animated';
 
 export enum ECInputType {
   number = 'numeric',
@@ -9,22 +10,27 @@ export enum ECInputType {
 interface ICInput {
   onChange: (value: string | number) => void;
   value: string | number;
-  placeholder? :string;
+  placeholder?: string;
   type?: ECInputType;
-  style? : any
+  style?: any;
+  error?: string;
 }
 
-const CInput: FC<ICInput> = ({onChange, value, type, style, placeholder}) => {
+const CInput: FC<ICInput> = ({ onChange, value, type, style, placeholder, error }) => {
   return (
-    <TextInput
-      style={[styles.input, style]}
-      onChangeText={text =>
-        onChange(type === ECInputType.number ? Number(text) : text)
-      }
-      value={value.toString()}
-      placeholder={placeholder}
-      keyboardType={type || 'default'}
-    />
+    <View>
+      <TextInput
+        style={[styles.input, style]}
+        onChangeText={text =>
+          onChange(type === ECInputType.number ? Number(text) : text)
+        }
+        value={value.toString()}
+        placeholder={placeholder}
+        keyboardType={type || 'default'}
+      />
+
+      {error && <Text>{error}</Text>}
+    </View>
   );
 };
 

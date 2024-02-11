@@ -7,7 +7,7 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-    StyleSheet
+    StyleSheet, Text, View
 } from 'react-native';
 
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -21,10 +21,12 @@ interface ISelectItem {
 interface ISelect {
     value: string;
     options: ISelectItem[];
-    onChange: (value: string) => void
+    onChange: (value: string) => void;
+    label?: string;
+    error?: string;
 }
 
-const Select: React.FC<ISelect> = ({ value, onChange, options }) => {
+const Select: React.FC<ISelect> = ({ value, onChange, options, label, error }) => {
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState(value);
     const [items, setItems] = useState<ISelectItem[]>(options);
@@ -38,14 +40,18 @@ const Select: React.FC<ISelect> = ({ value, onChange, options }) => {
     }, [selected])
 
     return (
-        <DropDownPicker
-            open={open}
-            value={selected}
-            items={items}
-            setOpen={setOpen}
-            setValue={setSelected}
-            setItems={setItems}
-        />
+        <View>
+            {label && <Text> {label} </Text>}
+            <DropDownPicker
+                open={open}
+                value={selected}
+                items={items}
+                setOpen={setOpen}
+                setValue={setSelected}
+                setItems={setItems}
+            />
+            {error && <Text> {error} </Text>}
+        </View>
     );
 }
 

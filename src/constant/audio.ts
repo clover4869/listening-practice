@@ -1,5 +1,5 @@
 enum AUDIO_FILE_TYPE {
-  DRIVER = 'DRIVER',
+  DRIVE = 'DRIVE',
   URL = 'URL',
   LOCAL_FILE = 'LOCAL_FILE',
 }
