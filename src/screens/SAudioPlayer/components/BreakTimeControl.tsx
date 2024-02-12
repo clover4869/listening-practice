@@ -36,7 +36,7 @@ const BreakTimeControl: FC<IBreakTimeControl> = ({}) => {
     <View style={styles.container}>
       <View style={styles.wrapInput}>
         <CInput
-          style={styles.input}
+          styleContainer={styles.input}
           value={form.start}
           onChange={value => {
             setForm({...form, start: Number(value)});
@@ -45,7 +45,7 @@ const BreakTimeControl: FC<IBreakTimeControl> = ({}) => {
           placeholder="Start"
         />
         <CInput
-          style={styles.input}
+          styleContainer={styles.input}
           value={form.end}
           onChange={value => {
             setForm({...form, end: Number(value)});
@@ -79,6 +79,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    width: '100%',
+    gap: 12
   },
   button: {
     minHeight: 50,
@@ -91,15 +93,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    minHeight: 50,
-    width: '46%',
-    padding: 12,
-    color: COLORS.WHITE,
-    fontSize: 15,
-    borderColor: COLORS.LAVENDER,
-    borderWidth: 1,
-    backgroundColor: 'transparent',
-    marginBottom: 12,
+    width: '47%',
   },
   text: {
     color: 'white',

@@ -15,7 +15,7 @@ const renderScene = SceneMap({
 
 export default function SAudioPlayer() {
   const { params } = useRoute<any>();
-  const { setAudioInfo } = usePlayerStore()
+  const { setAudioInfo } = usePlayerStore();
 
   const layout = useWindowDimensions();
 
@@ -27,12 +27,10 @@ export default function SAudioPlayer() {
 
   React.useEffect(() => {
     (async function () {
-      const row = await findOne(params.id)
-      console.log(row);
-      
-      setAudioInfo(row[0])
-    })()
-  }, [])
+      const row = await findOne(params.id);
+      setAudioInfo(row[0]);
+    })();
+  }, []);
 
   return (
     <TabView
