@@ -6,15 +6,23 @@
  */
 import 'react-native-gesture-handler';
 
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import NavigationApp from './src/navigator';
-import {createTableAudio} from './src/store/sqlite/sqliteConfig';
-import {insetDataSeed} from './src/store/sqlite/dataSeed';
+import { createTableAudio } from './src/store/sqlite/sqliteConfig';
+import { insetDataSeed } from './src/store/sqlite/dataSeed';
+import RNBootSplash from 'react-native-bootsplash';
+import { delay } from './src/shared/delay';
 
 function App(): React.JSX.Element {
   useEffect(() => {
-    createTableAudio();
-    setTimeout(insetDataSeed,100)
+    const init = async () => {
+      await createTableAudio();
+      await delay(1000);
+      await insetDataSeed();
+    };
+    init().finally(async () => {
+      await RNBootSplash.hide({ fade: true });
+    });
   }, []);
   return <NavigationApp />;
 }
