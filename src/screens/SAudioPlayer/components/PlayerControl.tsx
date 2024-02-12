@@ -30,8 +30,10 @@ export default function PlayerControl() {
       if (error) {
         return;
       }
+      const duration = sound.getDuration();
       setSound(sound);
-      setDuration(sound.getDuration());
+      setDuration(duration);
+      setPeriod(0, duration);
     };
 
     if (sound) {
@@ -123,15 +125,18 @@ export default function PlayerControl() {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            console.log({path});
-            
-            (sound as any)?.play();
-            setPlay(true);
+            if (isPlay) {
+              (sound as any)?.pause();
+              setPlay(false);
+            } else {
+              (sound as any)?.play();
+              setPlay(true);
+            }
           }}
         >
           <Icons
             type={EIconTypes.Feather}
-            name={isPlay ? 'play' : 'pause'}
+            name={!isPlay ? 'play' : 'pause'}
             size={25}
             color={COLORS.YELLOW_BUTTERMILK}
           />

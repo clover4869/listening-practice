@@ -8,10 +8,8 @@ export default function STranscript() {
 
   return (
     <View className="bg-gray-900 flex-1 text-white">
-      <Header title={name} />
-
       <ScrollView>
-        <Text className="text-gray-200 text-lg px-3 pb-12"> {transcript} </Text>
+        <Text className="text-gray-200 text-lg px-3 pb-12 pt-6" aria-selected selectable> {transcript} </Text>
       </ScrollView>
     </View>
   );
