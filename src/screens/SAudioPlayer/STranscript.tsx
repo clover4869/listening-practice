@@ -9,7 +9,13 @@ export default function STranscript() {
   return (
     <View className="bg-gray-900 flex-1 text-white">
       <ScrollView>
-        <Text className="text-gray-200 text-lg px-3 pb-12 pt-6" aria-selected selectable> {transcript} </Text>
+        <Text
+          className="text-gray-200 text-lg px-3 pb-12 pt-6"
+          selectable={true}
+          // selectionColor="orange"
+        >
+          {transcript}
+        </Text>
       </ScrollView>
     </View>
   );
