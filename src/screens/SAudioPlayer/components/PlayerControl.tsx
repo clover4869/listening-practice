@@ -27,6 +27,7 @@ export default function PlayerControl() {
 
   function initSound() {
     const callback = (error: any, sound: any) => {
+      setPlay(false)
       if (error) {
         return;
       }

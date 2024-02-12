@@ -24,7 +24,6 @@ function SListAudio(): React.JSX.Element {
 
   async function handleFilter() {
     const data = await find({ search });
-    console.log(data.length);
     setAudios(data?._array || []);
   }
 
