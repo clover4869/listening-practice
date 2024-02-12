@@ -1,19 +1,19 @@
 import React, { FC } from 'react';
-import { StyleSheet, TouchableHighlight, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import COLORS from '../../../assets/color';
 
 interface ICButton {
   onPress: () => void;
   children: React.ReactNode;
   style?: any;
-  className?: string
+  className?: string;
 }
 
 const CButton: FC<ICButton> = ({ onPress, children, style, className }) => {
   return (
-    <TouchableHighlight onPress={onPress} className={className} >
+    <Pressable onPress={onPress} className={className}>
       <View style={[styles.button, style]}>{children}</View>
-    </TouchableHighlight>
+    </Pressable>
   );
 };
 

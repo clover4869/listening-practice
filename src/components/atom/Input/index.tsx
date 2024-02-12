@@ -16,6 +16,7 @@ interface ICInput {
   error?: string;
   label?: string;
   onBlur?: (e: any) => void;
+  styleContainer?: any;
 }
 
 const CInput: FC<ICInput> = ({
@@ -27,9 +28,10 @@ const CInput: FC<ICInput> = ({
   error,
   onBlur,
   label,
+  styleContainer,
 }) => {
   return (
-    <View className="py-2">
+    <View className="py-2" style={styleContainer}>
       {label && <Text style={styles.textLabel}> {label} </Text>}
       <TextInput
         style={[styles.input, style, error && styles.inputError]}
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
     color: '#cc0033',
     fontSize: 12,
     marginTop: 5,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
   textLabel: {
     color: COLORS.WHITE,

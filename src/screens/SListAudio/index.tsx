@@ -6,34 +6,15 @@
  */
 
 import React, { Fragment, useEffect, useState } from 'react';
-import {
-  Button,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import DocumentPicker, {
-  DirectoryPickerResponse,
-  DocumentPickerResponse,
-  isCancel,
-  isInProgress,
-  types,
-} from 'react-native-document-picker';
-import Sound from 'react-native-sound';
+import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 
-import Icons, { EIconTypes } from '../../assets/Icon';
+import { useNavigation } from '@react-navigation/native';
 import COLORS from '../../assets/color';
-import { createTableAudio } from '../../store/sqlite/sqliteConfig';
+import CButtonText from '../../components/atom/Button/CButtonText';
+import CInput, { ECInputType } from '../../components/atom/Input';
+import { Routes } from '../../navigator/types';
 import { find } from '../../store/sqlite/audio';
 import AudioItem from './components/AudioItem';
-import CInput, { ECInputType } from '../../components/atom/Input';
-import CButton from '../../components/atom/Button';
-import { useNavigation } from '@react-navigation/native';
-import { Routes } from '../../navigator/types';
-import CButtonText from '../../components/atom/Button/CButtonText';
 
 function SListAudio(): React.JSX.Element {
   const navigation = useNavigation<any>();
@@ -70,9 +51,9 @@ function SListAudio(): React.JSX.Element {
 
   return (
     <View style={styles.container}>
-      <View className="flex-row items-center">
+      <View className="flex-row items-center justify-between px-3 gap-3 align-middle w-full">
         <CInput
-          style={styles.input}
+          styleContainer={styles.input}
           value={search}
           onChange={(value) => {
             setSeach(value.toString());
@@ -105,16 +86,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   input: {
-    minHeight: 50,
-    width: '50%',
-    padding: 12,
-    color: COLORS.WHITE,
-    fontSize: 15,
-    borderColor: COLORS.LAVENDER,
-    borderWidth: 1,
-    backgroundColor: 'transparent',
-    marginBottom: 12,
-    flex: 1,
+    width: Dimensions.get('window').width - 70,
   },
   text: {
     color: COLORS.WHITE,
