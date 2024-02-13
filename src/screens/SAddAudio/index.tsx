@@ -109,8 +109,14 @@ function SAddAudio(): React.JSX.Element {
         validateOnChange={true}
         validationSchema={SignupSchema}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, errors }) => {
-          console.log({ errors });
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+        }) => {
           const renderInputURL = (type: AUDIO_FILE_TYPE) => {
             switch (type) {
               case AUDIO_FILE_TYPE.URL: {
@@ -119,7 +125,7 @@ function SAddAudio(): React.JSX.Element {
                     onChange={handleChange('pathUrl')}
                     onBlur={handleBlur('pathUrl')}
                     value={values.pathUrl}
-                    error={errors.pathUrl}
+                    error={touched.pathUrl ? errors.pathUrl : undefined}
                     placeholder="Path URL"
                   />
                 );
@@ -131,7 +137,7 @@ function SAddAudio(): React.JSX.Element {
                     onChange={handleChange('pathDrive')}
                     onBlur={handleBlur('pathDrive')}
                     value={values.pathDrive}
-                    error={errors.pathDrive}
+                    error={touched.pathDrive ? errors.pathDrive : undefined}
                     placeholder="Path Drive"
                   />
                 );
@@ -142,7 +148,7 @@ function SAddAudio(): React.JSX.Element {
                   <InputDocumentPicker
                     onChange={handleChange('pathFile')}
                     value={values.pathFile}
-                    error={errors.pathFile}
+                    error={touched.pathFile ? errors.pathFile : undefined}
                   />
                 );
               }
@@ -158,20 +164,20 @@ function SAddAudio(): React.JSX.Element {
                 onBlur={handleBlur('name')}
                 placeholder="Name"
                 value={values.name}
-                error={errors.name}
+                error={touched.name ? errors.name : undefined}
               />
               <CInput
                 onChange={handleChange('transcript')}
                 onBlur={handleBlur('transcript')}
                 value={values.transcript}
-                error={errors.transcript}
+                error={touched.transcript ? errors.transcript : undefined}
                 placeholder="Transcript"
               />
               <CInput
                 onChange={handleChange('topic')}
                 onBlur={handleBlur('topic')}
                 value={values.topic}
-                error={errors.topic}
+                error={touched.topic ? errors.topic : undefined}
                 placeholder="Topic"
               />
               <CSelect
