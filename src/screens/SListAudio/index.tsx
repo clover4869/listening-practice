@@ -6,7 +6,7 @@
  */
 
 import React, { Fragment, useEffect, useState } from 'react';
-import { Dimensions, ScrollView, StyleSheet, View } from 'react-native';
+import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import COLORS from '../../assets/color';
@@ -33,7 +33,7 @@ function SListAudio(): React.JSX.Element {
   }, [search]);
 
   const renderAudios = () => {
-    if (!audios) return;
+    if (!audios || !audios?.length) return <Text style={styles.textNotFound} > Audio not found! </Text>;
 
     return audios?.map((item: any, index) => {
       return (
@@ -90,6 +90,13 @@ const styles = StyleSheet.create({
   text: {
     color: COLORS.WHITE,
   },
+  textNotFound: {
+    color: COLORS.WHITE_GREY,
+    fontSize: 20,
+    margin: 'auto',
+    textAlign: 'center',
+    paddingVertical: 30
+  }
 });
 
 export default SListAudio;
