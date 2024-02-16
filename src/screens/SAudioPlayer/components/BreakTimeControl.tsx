@@ -22,9 +22,12 @@ const BreakTimeControl: FC<IBreakTimeControl> = ({}) => {
     start: 0,
     end: duration || 0,
   });
+  const [isDisable, setIsDisable] = useState(false);
 
   const handleSubmit = async () => {
+    setIsDisable(true);
     if (form.start === form.end) {
+      setIsDisable(false);
       return Toast.show({
         type: 'error',
         text1: 'Error',
@@ -33,6 +36,7 @@ const BreakTimeControl: FC<IBreakTimeControl> = ({}) => {
     }
 
     if (form.start > form.end) {
+      setIsDisable(false);
       return Toast.show({
         type: 'error',
         text1: 'Error',
@@ -44,15 +48,14 @@ const BreakTimeControl: FC<IBreakTimeControl> = ({}) => {
       (element: IBreak) =>
         element.start === form.start && element.end === form.end,
     );
-
     if (isExist) {
+      setIsDisable(false);
       return Toast.show({
         type: 'error',
         text1: 'Error',
         text2: 'Break time existed!',
       });
     }
-
 
     try {
       const position = breaks.length || 0;
@@ -64,12 +67,14 @@ const BreakTimeControl: FC<IBreakTimeControl> = ({}) => {
       });
 
       addBreak({ ...data });
+      setIsDisable(false);
       return Toast.show({
         type: 'success',
         text1: 'Success',
         text2: `Break time created!`,
       });
     } catch (error) {
+      setIsDisable(false);
       return Toast.show({
         type: 'error',
         text1: 'Error',
@@ -99,7 +104,12 @@ const BreakTimeControl: FC<IBreakTimeControl> = ({}) => {
           placeholder="End"
         />
       </View>
-      <CButton style={styles.button} className="w-full" onPress={handleSubmit}>
+      <CButton
+        style={styles.button}
+        disabled={isDisable}
+        className="w-full"
+        onPress={handleSubmit}
+      >
         <Text style={styles.text}>Break time</Text>
       </CButton>
     </View>

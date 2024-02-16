@@ -7,11 +7,23 @@ interface ICButton {
   children: React.ReactNode;
   style?: any;
   className?: string;
+  disabled?: boolean;
 }
 
-const CButton: FC<ICButton> = ({ onPress, children, style, className }) => {
+const CButton: FC<ICButton> = ({
+  onPress,
+  children,
+  style,
+  className,
+  disabled,
+}) => {
   return (
-    <Pressable onPress={onPress} className={className}>
+    <Pressable
+      onPress={onPress}
+      className={className}
+      disabled={disabled}
+      style={[disabled && styles.buttonDisable]}
+    >
       <View style={[styles.button, style]}>{children}</View>
     </Pressable>
   );
@@ -26,6 +38,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  buttonDisable: {
+    opacity: 0.5,
   },
 });
 
