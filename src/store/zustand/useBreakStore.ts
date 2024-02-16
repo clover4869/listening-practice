@@ -28,4 +28,5 @@ const useBreaksStore = create<IBreakStore>()((set) => ({
   initBreak: (breaks) => set((state) => ({ ...state, breaks })),
 }));
 
-export { useBreaksStore };
+export { useBreaksStore };  export type { IBreak };
+

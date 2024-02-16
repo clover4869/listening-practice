@@ -12,6 +12,7 @@ import { createTableAudio } from './src/store/sqlite/sqliteConfig';
 import { insetDataSeed } from './src/store/sqlite/dataSeed';
 import RNBootSplash from 'react-native-bootsplash';
 import { delay } from './src/shared/delay';
+import Toast from 'react-native-toast-message';
 
 function App(): React.JSX.Element {
   useEffect(() => {
@@ -24,7 +25,12 @@ function App(): React.JSX.Element {
       await RNBootSplash.hide({ fade: true });
     });
   }, []);
-  return <NavigationApp />;
+  return (
+    <>
+      <NavigationApp />
+      <Toast />
+    </>
+  );
 }
 
 export default App;

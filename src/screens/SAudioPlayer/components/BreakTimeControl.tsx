@@ -8,7 +8,8 @@ import COLORS from '../../../assets/color';
 import { insertOne } from '../../../store/sqlite/breakTime';
 import { usePlayerStore } from '../../../store/zustand/usePlayerStore';
 import { useRoute } from '@react-navigation/native';
-import { useBreaksStore } from '../../../store/zustand/useBreakStore';
+import { IBreak, useBreaksStore } from '../../../store/zustand/useBreakStore';
+import Toast from 'react-native-toast-message';
 
 interface IBreakTimeControl {}
 
@@ -23,15 +24,58 @@ const BreakTimeControl: FC<IBreakTimeControl> = ({}) => {
   });
 
   const handleSubmit = async () => {
-    const position = breaks.length || 0;
-    const data = await insertOne({
-      audio_id: id,
-      start: form.start,
-      end: form.end,
-      position: position,
-    });
+    if (form.start === form.end) {
+      return Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: "Start time can't equal end time",
+      });
+    }
 
-    addBreak({ ...data });
+    if (form.start > form.end) {
+      return Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: "Start time can't greater than end time",
+      });
+    }
+
+    const isExist = breaks.some(
+      (element: IBreak) =>
+        element.start === form.start && element.end === form.end,
+    );
+
+    if (isExist) {
+      return Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Break time existed!',
+      });
+    }
+
+
+    try {
+      const position = breaks.length || 0;
+      const data = await insertOne({
+        audio_id: id,
+        start: form.start,
+        end: form.end,
+        position: position,
+      });
+
+      addBreak({ ...data });
+      return Toast.show({
+        type: 'success',
+        text1: 'Success',
+        text2: `Break time created!`,
+      });
+    } catch (error) {
+      return Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: `Have something error ${error}`,
+      });
+    }
   };
   return (
     <View style={styles.container}>
