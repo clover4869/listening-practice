@@ -18,8 +18,9 @@ function App(): React.JSX.Element {
   useEffect(() => {
     const init = async () => {
       await createTableAudio();
-      await delay(1000);
+      await delay(100);
       await insetDataSeed();
+      await delay(900);
     };
     init().finally(async () => {
       await RNBootSplash.hide({ fade: true });
@@ -28,7 +29,7 @@ function App(): React.JSX.Element {
   return (
     <>
       <NavigationApp />
-      <Toast />
+      <Toast visibilityTime={1500} topOffset={10} />
     </>
   );
 }
