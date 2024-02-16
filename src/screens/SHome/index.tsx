@@ -5,8 +5,8 @@
  * @format
  */
 
-import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect } from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -16,36 +16,38 @@ import {
   Text,
   View,
 } from 'react-native';
-import {Routes} from '../../navigator/types';
+import { Routes } from '../../navigator/types';
+import { delay } from '../../shared/delay';
 
 function SHome(): React.JSX.Element {
   const navigation = useNavigation<any>();
 
-  return (
-    <SafeAreaView>
-      <StatusBar />
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <View style={styles.container}>
-          <Text> home </Text>
+  useEffect(() => {
+    (async function () {
+      await delay(900);
+      navigation.navigate(Routes.LIST_AUDIO);
+    })();
+  }, []);
 
-          <Pressable
-            onPress={() => {
-              navigation.navigate(Routes.LIST_AUDIO);
-            }}>
-            {({pressed}) => <Text> LIST_AUDIO </Text>}
-          </Pressable>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+  return (
+    <View style={styles.container}>
+      <Text></Text>
+      <Text className="text-white text-3xl"> Break time audio </Text>
+      <Text className=" text-white text-lg"> © Design by Clover</Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     fontSize: 32,
+    backgroundColor: '#0bb2c6',
+    flex: 1,
+    padding: 12,
   },
+  text: {},
 });
 
 export default SHome;
