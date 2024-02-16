@@ -1,5 +1,5 @@
-import {AUDIO_FILE_TYPE} from '../../constant/audio';
-import {db} from './sqliteConfig';
+import { AUDIO_FILE_TYPE } from '../../constant/audio';
+import { db } from './sqliteConfig';
 
 interface IInsertOne {
   audio_id: number;
@@ -10,7 +10,7 @@ interface IInsertOne {
   content?: string;
 }
 
-async function insertOne({audio_id, start, end, position}: IInsertOne) {
+async function insertOne({ audio_id, start, end, position }: IInsertOne) {
   try {
     let dataInsert = await db.executeAsync(
       `
@@ -18,17 +18,23 @@ async function insertOne({audio_id, start, end, position}: IInsertOne) {
       VALUES (?, ?, ?, ?);`,
       [audio_id, start, end, position],
     );
-    let {rows} = await db.executeAsync('SELECT * FROM break');
+    let { rows } = await db.executeAsync(
+      'SELECT * FROM break where audio_id = ? and start = ? and end = ? and position = ?',
+      [audio_id, start, end, position],
+    );
 
-    return rows;
+    return rows?._array[0];
   } catch (e) {
     console.error('Something went wrong executing SQL commands:', e);
   }
 }
 
-async function findAll(audio_id : number | string) {
+async function findAll(audio_id: number | string) {
   try {
-    let {rows} = await db.executeAsync('SELECT * FROM break where audio_id = ?', [audio_id]);
+    let { rows } = await db.executeAsync(
+      'SELECT * FROM break where audio_id = ?',
+      [audio_id],
+    );
 
     return rows?._array;
   } catch (error) {
@@ -39,7 +45,7 @@ async function findAll(audio_id : number | string) {
 async function remove(id: number) {
   try {
     await db.executeAsync('DELETE from break where id = ?', [id]);
-    let {rows} = await db.executeAsync('SELECT * FROM break');
+    let { rows } = await db.executeAsync('SELECT * FROM break');
 
     return rows?._array;
   } catch (error) {
@@ -47,4 +53,4 @@ async function remove(id: number) {
   }
 }
 
-export {insertOne, remove, findAll};
+export { insertOne, remove, findAll };

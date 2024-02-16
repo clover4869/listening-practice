@@ -1,29 +1,31 @@
-import {create} from 'zustand';
+import { create } from 'zustand';
 
 interface IBreak {
   start: number;
   end: number;
   position: number;
+  id: number | string;
+  name?: string;
+  content?: string;
 }
 
 interface IBreakStore {
   breaks: IBreak[];
-  addBreak: (start: number, end: number, position : number) => void;
+  addBreak: (breakItem: IBreak) => void;
   initBreak: (breaks: IBreak[]) => void;
 }
 
-const useBreaksStore = create<IBreakStore>()(set => ({
+const useBreaksStore = create<IBreakStore>()((set) => ({
   breaks: [],
-  addBreak: (start, end, position) => {
-    set(state => {
+  addBreak: (breakItem) => {
+    set((state) => {
       return {
         ...state,
-        breaks: [...state.breaks, {start, end, position}],
+        breaks: [...state.breaks, { ...breakItem }],
       };
     });
   },
-  initBreak: breaks => set(state => ({...state, breaks})),
-  // increase: (by) => set((state) => ({ bears: state.bears + by })),
+  initBreak: (breaks) => set((state) => ({ ...state, breaks })),
 }));
 
-export {useBreaksStore};
+export { useBreaksStore };
