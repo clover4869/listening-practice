@@ -9,6 +9,7 @@ interface ICButtonText {
   style?: any;
   className?: string;
   styleText?: any;
+  disabled?: boolean
 }
 
 const CButtonText: FC<ICButtonText> = ({
@@ -17,9 +18,10 @@ const CButtonText: FC<ICButtonText> = ({
   style,
   className,
   styleText,
+  disabled
 }) => {
   return (
-    <CButton onPress={onPress} style={style} className={className}>
+    <CButton onPress={onPress} style={style} className={className} disabled={disabled} >
       <Text style={[styleText]} className=" text-white font-medium text-lg">
         {title}
       </Text>

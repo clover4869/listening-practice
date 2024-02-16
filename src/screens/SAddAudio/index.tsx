@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
@@ -24,6 +24,8 @@ import { insertOne } from '../../store/sqlite/audio';
 import Header from '../../components/container/Header/Header';
 import CButton from '../../components/atom/Button';
 import CButtonText from '../../components/atom/Button/CButtonText';
+import Toast from 'react-native-toast-message';
+import { delay } from '../../shared/delay';
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string().required(),
@@ -69,6 +71,7 @@ function SAddAudio(): React.JSX.Element {
     topic: '',
     level: 0,
   };
+  const [isDisable, setIsDisable] = useState(false);
 
   const getPath = (type: AUDIO_FILE_TYPE, values: IFormValue) => {
     switch (type) {
@@ -86,18 +89,34 @@ function SAddAudio(): React.JSX.Element {
   };
 
   const handleSubmitForm = async (values: IFormValue) => {
-    let path = getPath(values.type, values);
+    setIsDisable(true);
+    try {
+      let path = getPath(values.type, values);
 
-    const data = {
-      ...values,
-      listen_number: 0,
-      duration: 0,
-      path,
-    };
+      const data = {
+        ...values,
+        listen_number: 0,
+        duration: 0,
+        path,
+      };
 
-    const id = await insertOne(data);
-
-    navigation.navigate(Routes.AUDIO_PLAYER, { id });
+      const id = await insertOne(data);
+      delay(1000);
+      Toast.show({
+        type: 'success',
+        text1: 'Success',
+        text2: `Audio created!`,
+      });
+      navigation.navigate(Routes.AUDIO_PLAYER, { id });
+      setIsDisable(false);
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: error?.toString() || `There are something error`,
+      });
+      setIsDisable(false);
+    }
   };
 
   return (
@@ -194,6 +213,7 @@ function SAddAudio(): React.JSX.Element {
               <CButtonText
                 onPress={() => handleSubmit()}
                 title="Submit"
+                disabled={isDisable}
               ></CButtonText>
             </View>
           );
