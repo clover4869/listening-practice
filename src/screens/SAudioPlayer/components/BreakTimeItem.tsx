@@ -3,9 +3,10 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {ScaleDecorator} from 'react-native-draggable-flatlist';
 import Icons, {EIconTypes} from '../../../assets/Icon';
 import {usePlayerStore} from '../../../store/zustand/usePlayerStore';
+import { IBreak } from '../../../store/zustand/useBreakStore';
 
 interface IBreakTimeItem {
-  item: any;
+  item: IBreak;
   getIndex: any;
   drag: any;
   isActive: any;
@@ -38,7 +39,7 @@ const BreakTimeItem: FC<IBreakTimeItem> = ({
         <View>
           <TouchableOpacity
             style={[styles.binButton]}
-            onPress={() => onRemove(item)}>
+            onPress={() => onRemove(item.id)}>
             <View>
               <Icons
                 type={EIconTypes.Ionicons}
