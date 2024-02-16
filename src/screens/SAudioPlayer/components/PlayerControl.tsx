@@ -7,6 +7,7 @@ import Icons, { EIconTypes } from '../../../assets/Icon';
 import COLORS from '../../../assets/color';
 import { convertTimeString } from '../../../shared/convert';
 import { usePlayerStore } from '../../../store/zustand/usePlayerStore';
+import { AUDIO_FILE_TYPE } from '../../../constant/audio';
 
 export default function PlayerControl() {
   const {
@@ -18,6 +19,7 @@ export default function PlayerControl() {
     position,
     duration,
     path,
+    type,
     setSound,
     setPeriod,
     setPosition,
@@ -27,7 +29,7 @@ export default function PlayerControl() {
 
   function initSound() {
     const callback = (error: any, sound: any) => {
-      setPlay(false)
+      setPlay(false);
       if (error) {
         return;
       }
@@ -40,8 +42,10 @@ export default function PlayerControl() {
     if (sound) {
       (sound as any)?.release();
     }
-
-    const soundInit = new Sound(path, undefined, (error) =>
+    const source =
+      type === AUDIO_FILE_TYPE.LOCAL_FILE ? Sound.MAIN_BUNDLE : undefined;
+      
+    const soundInit = new Sound(path, source, (error) =>
       callback(error, soundInit),
     ) as any;
   }
