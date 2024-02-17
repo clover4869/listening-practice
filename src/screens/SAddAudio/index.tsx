@@ -92,7 +92,9 @@ function SAddAudio(): React.JSX.Element {
     setIsDisable(true);
     try {
       let path = getPath(values.type, values);
-
+      if(!path) {
+        throw `Can't get path of audio!`
+      }
       const data = {
         ...values,
         listen_number: 0,
