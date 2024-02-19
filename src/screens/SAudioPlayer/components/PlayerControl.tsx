@@ -25,6 +25,7 @@ export default function PlayerControl() {
     setPosition,
     setPlay,
     setDuration,
+    setIsChangingInput,
   } = usePlayerStore();
 
   function initSound() {
@@ -44,11 +45,31 @@ export default function PlayerControl() {
     }
     const source =
       type === AUDIO_FILE_TYPE.LOCAL_FILE ? Sound.MAIN_BUNDLE : undefined;
-      
+
     const soundInit = new Sound(path, source, (error) =>
       callback(error, soundInit),
     ) as any;
   }
+
+  const jump = (secsDelta: number) => {
+    if (sound) {
+      sound.getCurrentTime((secs: number, isPlaying: boolean) => {
+        let nextSecs = secs + secsDelta;
+        if (nextSecs < 0) nextSecs = 0;
+        else if (nextSecs > duration) nextSecs = duration;
+        sound.setCurrentTime(nextSecs);
+        setPosition(nextSecs);
+      });
+    }
+  };
+
+  const seekTo = (second: number) => {
+    let nextSecond = second;
+    if (nextSecond < 0) nextSecond = 0;
+    else if (nextSecond > duration) nextSecond = duration;
+    sound.setCurrentTime(nextSecond);
+    setPosition(nextSecond);
+  };
 
   React.useEffect(() => {
     initSound();
@@ -99,18 +120,11 @@ export default function PlayerControl() {
           minimumTrackTintColor="#FFD369"
           maximumTrackTintColor="#fff"
           onSlidingComplete={async (value) => {
-            // let tmp = value;
-            // if (value > ABRepeat.end) {
-            //   tmp = ABRepeat.end;
-            // }
-            // if (value >= info.duration - 1) {
-            //   tmp = info.duration - 1;
-            // }
-            // await seekTo(tmp);
-            // setIsChangingInput(false);
+            seekTo(value);
+            setIsChangingInput(false);
           }}
           onSlidingStart={() => {
-            // setIsChangingInput(true);
+            setIsChangingInput(true);
           }}
         />
         <Text style={styles.progressLabelText}>
@@ -120,7 +134,11 @@ export default function PlayerControl() {
 
       {/* button control zone */}
       <View style={styles.buttonControlContainer}>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          onPress={() => {
+            jump(-3);
+          }}
+        >
           <Icons
             type={EIconTypes.Feather}
             name={'rotate-ccw'}
@@ -146,7 +164,11 @@ export default function PlayerControl() {
             color={COLORS.YELLOW_BUTTERMILK}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          onPress={() => {
+            jump(3);
+          }}
+        >
           <Icons
             type={EIconTypes.Feather}
             name={'rotate-cw'}
@@ -171,7 +193,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 12,
+    gap: 24,
   },
   progressBar: {
     flex: 1,

@@ -24,11 +24,12 @@ interface IPlayer extends IAudio {
   setPosition: (position: number) => void;
   setPeriod: (start: number, end: number) => void;
   setPlay: (isPlay: boolean) => void;
-  setDuration: (duration: number) => void,
-  setAudioInfo: (audio: IAudio) => void
+  setDuration: (duration: number) => void;
+  setAudioInfo: (audio: IAudio) => void;
+  setIsChangingInput: (isChange: boolean) => void;
 }
 
-const usePlayerStore = create<IPlayer>()(set => ({
+const usePlayerStore = create<IPlayer>()((set) => ({
   sound: null,
   isChangingInput: false,
   isPlay: false,
@@ -44,14 +45,16 @@ const usePlayerStore = create<IPlayer>()(set => ({
   type: AUDIO_FILE_TYPE.URL,
   level: 0,
   topic: '',
-  setSound: sound => set(state => ({ ...state, sound })),
-  setPosition: position => set(state => ({ ...state, position })),
-  setDuration: duration => set(state => ({ ...state, duration })),
-  setPeriod: (start, end) => set(state => ({ ...state, start, end })),
-  setPlay: isPlay => set(state => ({ ...state, isPlay })),
-  setAudioInfo: (audio: IAudio) => set(state => ({ ...state, ...audio }))
+  setSound: (sound) => set((state) => ({ ...state, sound })),
+  setPosition: (position) => set((state) => ({ ...state, position })),
+  setDuration: (duration) => set((state) => ({ ...state, duration })),
+  setPeriod: (start, end) => set((state) => ({ ...state, start, end })),
+  setPlay: (isPlay) => set((state) => ({ ...state, isPlay })),
+  setAudioInfo: (audio: IAudio) => set((state) => ({ ...state, ...audio })),
+  setIsChangingInput: (isChange: boolean) =>
+    set((state) => ({ ...state, isChangingInput: isChange })),
   // increase: (by) => set((state) => ({ bears: state.bears + by })),
 }));
 
-export { usePlayerStore }; export type { IAudio };
-
+export { usePlayerStore };
+export type { IAudio };
