@@ -1,10 +1,15 @@
-import React, { ChangeEvent, FC } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import COLORS from '../../../assets/color';
 
 export enum ECInputType {
   number = 'numeric',
   text = 'default',
+  numberPad = 'number-pad',
+  decimalPad = 'decimal-pad',
+  emailAddress = 'email-address',
+  phonePad = 'phone-pad',
+  url = 'url',
 }
 
 interface ICInput {
@@ -30,16 +35,40 @@ const CInput: FC<ICInput> = ({
   label,
   styleContainer,
 }) => {
+  const [valueInput, setValueInput] = useState(value.toString() || '');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      switch (type) {
+        case ECInputType.number:
+        case ECInputType.decimalPad:
+        case ECInputType.numberPad: {
+          onChange(Number(valueInput));
+          break;
+        }
+
+        default: {
+          onChange(valueInput);
+          break;
+        }
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [valueInput]);
+
+  useEffect(() => {
+    setValueInput(valueInput.toString());
+  }, [value]);
+
   return (
     <View className="py-2" style={styleContainer}>
       {label && <Text style={styles.textLabel}> {label} </Text>}
       <TextInput
         style={[styles.input, style, error && styles.inputError]}
-        onChangeText={(text) =>
-          onChange(type === ECInputType.number ? Number(text) : text)
-        }
+        onChangeText={(text) => setValueInput(text)}
         onBlur={onBlur}
-        value={value?.toString()}
+        value={valueInput}
         placeholder={placeholder}
         keyboardType={type || 'default'}
         placeholderTextColor={COLORS.GREY_LIGHT2}

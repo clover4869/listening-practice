@@ -89,9 +89,9 @@ const BreakTimeControl: FC<IBreakTimeControl> = ({}) => {
           styleContainer={styles.input}
           value={form.start}
           onChange={(value) => {
-            setForm({ ...form, start: Number(value) });
+            setForm({ ...form, start: value });
           }}
-          type={ECInputType.number}
+          type={ECInputType.decimalPad}
           placeholder="Start"
         />
         <CInput
